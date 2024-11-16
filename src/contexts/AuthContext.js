@@ -9,13 +9,14 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('auth_token'));
   const { user, isError } = usersApi.useGetMe();
 
-  // Effetto per gestire i dati dell'utente
+  // Modified effect to prevent immediate logout on error
   useEffect(() => {
     if (isAuthenticated && user) {
       useUserStore.getState().setCurrentUser(user);
     }
     
-    if (isError) {
+    // Only logout on error if we're authenticated and there's a specific error
+    if (isError && isAuthenticated && isError.response?.status === 401) {
       logout();
     }
   }, [isAuthenticated, user, isError]);

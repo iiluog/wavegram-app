@@ -1,10 +1,11 @@
 import React, { useEffect, useCallback } from 'react';
-import { Heart, MessageCircle, Send, Bookmark, MoreHorizontal, Home, Search, PlusSquare, User, LogOut } from 'lucide-react';
+import { Heart, MessageCircle, Send, Bookmark, MoreHorizontal, Home, Search, PlusSquare, User, LogOut, Share } from 'lucide-react';
 import { postsApi } from '../services/apiSWR';
 import { BASE_URL } from '../services/apiSWR';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import useUserStore from '../stores/userStore';
+import logoHome from '../assets/logo-home.png';
 
 const WavegramApp = ({ onOpenModal }) => {
   const { logout } = useAuth();
@@ -46,11 +47,11 @@ const WavegramApp = ({ onOpenModal }) => {
   };
 
   if (isLoading) {
-    return <div className="min-h-screen bg-black text-white flex items-center justify-center">Loading...</div>;
+    return <div className="min-h-screen bg-[#121212] text-white flex items-center justify-center">Loading...</div>;
   }
 
   if (isError) {
-    return <div className="min-h-screen bg-black text-white flex items-center justify-center">Error: {isError.message}</div>;
+    return <div className="min-h-screen bg-[#121212] text-white flex items-center justify-center">Error: {isError.message}</div>;
   }
 
   // Funzione helper per ottenere la prima immagine del post
@@ -86,104 +87,97 @@ const WavegramApp = ({ onOpenModal }) => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white">
-      {/* Header */}
-      <header className="border-b border-gray-800 sticky top-0 bg-black z-50">
-        <div className="flex justify-between items-center p-4 max-w-2xl mx-auto">
-          <h1 className="text-xl font-bold">Wavegram</h1>
-          <div className="flex items-center space-x-4">
-            <LogOut 
-              className="w-6 h-6 cursor-pointer hover:text-red-500 transition-colors" 
-              onClick={handleLogout}
-            />
-          </div>
-        </div>
-      </header>
-
-      {/* Main Content */}
-      <main className="max-w-2xl mx-auto pb-16">
-
-        {/* Posts */}
-        {posts.map(post => (
-          <article key={post.id} className="border-b border-gray-800 pb-4 mb-4">
-            <div className="flex justify-between items-center p-4">
-              <div className="flex items-center space-x-2">
+    <div className="min-h-screen bg-[#E6E6E6] text-black flex justify-center">
+      <div className="w-full max-w-xl">
+        {/* Header */}
+        <div className="sticky top-0 bg-[#E6E6E6] z-50 px-4 py-3">
+          <div className="flex justify-between items-center">
+            <span className="text-2xl font-medium text-[#1D1D1D]">
+              {new Date().toLocaleDateString('en-GB', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric'
+              }).replace(/\//g, '.')}
+            </span>
+            <div className="flex items-center">
+              {currentUser?.profile_image && (
                 <img
-                  src={getProfileImage(post.profile_image)}
-                  alt={post.username}
-                  className="w-8 h-8 rounded-full"
+                  src={getProfileImageUrl(currentUser.profile_image)}
+                  alt={currentUser.username}
+                  className="w-7 h-7 rounded-full"
                 />
-                <span className="font-semibold">{post.username}</span>
-                {post.location && (
-                  <span className="text-sm text-gray-400">• {post.location}</span>
-                )}
-              </div>
-              <MoreHorizontal className="w-6 h-6" />
-            </div>
-
-            <div className="relative">
-              <img
-                src={getPostImage(post.images)}
-                alt="post"
-                className="w-full"
-              />
-            </div>
-
-            <div className="p-4">
-              <div className="flex justify-between mb-2">
-                <div className="flex space-x-4">
-                  <Heart className="w-6 h-6" />
-                  <MessageCircle className="w-6 h-6" />
-                  <Send className="w-6 h-6" />
-                </div>
-                <Bookmark className="w-6 h-6" />
-              </div>
-              <p className="font-semibold mb-1">{post.like_count} likes</p>
-              <p>
-                <span className="font-semibold mr-2">{post.username}</span>
-                {post.description}
-              </p>
-              {post.comment_count > 0 && (
-                <p className="text-gray-500 text-sm mt-1">
-                  View all {post.comment_count} comments
-                </p>
               )}
-              <p className="text-gray-500 text-xs mt-1">{formatDate(post.created_at)}</p>
+              <span className="text-3xl ml-2 font-bold text-[#1D1D1D]" onClick={onOpenModal}>+</span>
             </div>
-          </article>
-        ))}
-        
-        {/* Indicatore di caricamento per altri post */}
-        {isLoadingMore && (
-          <div className="text-center p-4">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
           </div>
-        )}
-        
-        {/* Messaggio quando non ci sono più post */}
-        {isReachingEnd && posts.length > 0 && (
-          <div className="text-center p-4 text-gray-500">
-            No more posts to load
-          </div>
-        )}
-      </main>
 
-      {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 w-full bg-black border-t border-gray-800">
-        <div className="flex justify-around items-center p-4 max-w-2xl mx-auto">
-          <Home className="w-6 h-6" />
-          <PlusSquare className="w-6 h-6" onClick={onOpenModal}/>
-          {currentUser?.profile_image ? (
-            <img
-              src={getProfileImageUrl(currentUser.profile_image)}
-              alt={currentUser.username}
-              className="w-6 h-6 rounded-full object-cover"
-            />
-          ) : (
-            <User className="w-6 h-6" />
-          )}
+          {/* Logo */}
+          <img 
+            src={logoHome} 
+            alt="WAVEGRAM©" 
+            className="w-full max-w-xl px-4 py-2"
+          />
         </div>
-      </nav>
+        
+        {/* Main Content */}
+        <main className="pb-24">
+          {posts.map((post, index) => (
+            <article key={post.id} className="mb-6 pb-6">
+              {/* Divider line */}
+              <div className="w-full h-[1px] bg-black mb-4"></div>
+              
+              {/* User Info */}
+              <div className="flex justify-between items-center px-4 py-2">
+                <div className="flex items-center gap-2">
+                  <img
+                    src={getProfileImage(post.profile_image)}
+                    alt={post.username}
+                    className="w-7 h-7 rounded-full object-cover"
+                  />
+                  <span className="text-2xl uppercase font-medium text-[#1D1D1D]">{post.username}</span>
+                </div>
+                <span className="text-2xl font-medium text-[#1d1d1d]">1/{post.images?.length || 0}</span>
+              </div>
+
+              {/* Post Image */}
+              <div className="relative px-4">
+                <img
+                  src={getPostImage(post.images)}
+                  alt=""
+                  className="w-full aspect-square object-cover"
+                />
+              </div>
+
+              {/* Post Actions & Info */}
+              <div className="px-4 pt-3">
+                <div className="flex justify-between items-center">
+                  <div className="flex gap-4">
+                    <button className="w-6 h-6"><Heart size={24} /></button>
+                    <button className="w-6 h-6"><MessageCircle size={24} /></button>
+                    <button className="w-6 h-6"><Send size={24} /></button>
+                  </div>
+                  <div className="flex flex-col text-base items-end justify-center text-[#5E5E5E] leading-tight">
+                    <span className="font-sm">BigRock</span>
+                    <span className="text-sm">{formatDate(post.created_at)}</span>
+                  </div>
+                </div>
+
+                <div className="text-sm">
+                  <p className="font-normal mb-2 text-[#171717] text-base">
+                    {post.description || 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad dfghjukilo fguitm oip8 yuiloipyaèi yoieo0+ altro...'}
+                  </p>
+                </div>
+              </div>
+            </article>
+          ))}
+
+          {isLoadingMore && (
+            <div className="text-center p-4">
+              <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[#171717]"></div>
+            </div>
+          )}
+        </main>
+      </div>
     </div>
   );
 };
