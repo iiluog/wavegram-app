@@ -71,7 +71,7 @@ const Login = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               placeholder="Il tuo username (solo lettere minuscole)"
-              className={`${utilities.input.base} ${errors.username ? 'border-red-500' : ''}`}
+              className={`wg-input ${errors.username ? 'border-red-500' : ''}`}
             />
             {errors.username && (
               <p className="text-error">{errors.username}</p>
@@ -84,7 +84,7 @@ const Login = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="Password (almeno 8 caratteri)"
-              className={`${utilities.input.base} ${errors.password ? 'border-red-500' : ''}`}
+              className={`wg-input ${errors.password ? 'border-red-500' : ''}`}
             />
             {errors.password && (
               <p className="text-error">{errors.password}</p>

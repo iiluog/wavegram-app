@@ -29,6 +29,9 @@ code {
   .wg-txt-link {
     @apply text-blue-600 hover:text-blue-500;
   }
+  .wg-input {
+    @apply w-full bg-white text-textPrimary wg-rounded wg-padding-standard focus:outline-none focus:border-gray-500;
+  }
   .wg-rounded {
     @apply rounded-lg;
   }

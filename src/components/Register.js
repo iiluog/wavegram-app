@@ -235,7 +235,7 @@ const Register = () => {
               value={formData.username}
               onChange={handleChange}
               placeholder="Il tuo username (solo lettere minuscole)"
-              className={`${utilities.input.base} ${errors.username ? 'border-red-500' : ''
+              className={`wg-input ${errors.username ? 'border-red-500' : ''
                 }`}
             />
             {errors.username && (
@@ -250,7 +250,7 @@ const Register = () => {
               value={formData.email}
               onChange={handleChange}
               placeholder="Email"
-              className={`${utilities.input.base} ${errors.email ? 'border-red-500' : ''
+              className={`wg-input ${errors.email ? 'border-red-500' : ''
                 }`}
             />
             {errors.email && (
@@ -265,7 +265,7 @@ const Register = () => {
               value={formData.password}
               onChange={handleChange}
               placeholder="Password (almeno 8 caratteri)"
-              className={`${utilities.input.base} ${errors.password ? 'border-red-500' : ''
+              className={`wg-input ${errors.password ? 'border-red-500' : ''
                 }`}
             />
             {errors.password && (
@@ -280,7 +280,7 @@ const Register = () => {
               value={formData.confirmPassword}
               onChange={handleChange}
               placeholder="Ripeti la password"
-              className={`${utilities.input.base} ${errors.confirmPassword ? 'border-red-500' : ''
+              className={`wg-input ${errors.confirmPassword ? 'border-red-500' : ''
                 }`}
             />
             {errors.confirmPassword && (

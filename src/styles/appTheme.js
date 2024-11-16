@@ -9,9 +9,6 @@ export const utilities = {
     fullScreen: `min-h-screen bg-background`,
     maxWidth: 'w-full max-w-xl',
     maxWidthMd: 'w-full max-w-md'
-  },
-  input: {
-    base: `w-full bg-white text-textPrimary wg-rounded wg-padding-standard focus:outline-none focus:border-gray-500`
   }
 };
 
@@ -33,8 +30,12 @@ export const customStyles = {
       userInfo: `${utilities.flexLayout.center} gap-2`,
     },
     image: {
-      wrapper: "relative px-4",
-      img: "w-full aspect-square object-cover"
+      wrapper: "relative overflow-hidden w-full aspect-[1/1.1]",
+      carousel: "w-full flex h-full",
+      img: "w-full h-full object-cover",
+      dots: "absolute bottom-[10px] left-1/2 -translate-x-1/2 flex",
+      dot: "w-2 h-2 rounded-full bg-white/50 mx-1 cursor-pointer",
+      dotActive: "!bg-white",
     },
     actions: {
       wrapper: "px-4 pt-3",
