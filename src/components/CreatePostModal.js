@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { X, Image as ImageIcon } from 'lucide-react';
 import { Alert, AlertTitle, AlertDescription } from './ui/alert';
 import { postsApi } from '../services/apiSWR';
+import { customStyles, utilities } from '../styles/appTheme';
 
 const CreatePostModal = ({ isOpen, onClose }) => {
   const [location, setLocation] = useState('');
@@ -33,13 +34,13 @@ const CreatePostModal = ({ isOpen, onClose }) => {
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
-    
+
     // Crea URL per l'anteprima delle immagini
     const newImages = files.map(file => ({
       file,
       preview: URL.createObjectURL(file)
     }));
-    
+
     setSelectedImages(prev => [...prev, ...newImages]);
   };
 
@@ -68,13 +69,13 @@ const CreatePostModal = ({ isOpen, onClose }) => {
       const formData = new FormData();
       formData.append('location', location);
       formData.append('description', description);
-      
+
       selectedImages.forEach((image, index) => {
         formData.append('images[]', image.file);
       });
 
       const response = await postsApi.create(formData);
-      
+
       if (response.data.success) {
         setDescription('');
         setSelectedImages([]);
@@ -90,22 +91,21 @@ const CreatePostModal = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4">
-      <div className="bg-black rounded-lg w-full max-w-md p-4 relative">
-        <div className="flex justify-between items-center mb-6">
-          <h2 className="text-xl text-white font-bold">Crea un post</h2>
-          <button onClick={onClose} className="text-white">
+    <div className={customStyles.modal.overlay}>
+      <div className={customStyles.modal.container}>
+        <div className={customStyles.modal.header}>
+          <h2 className={customStyles.modal.title}>Crea un post</h2>
+          <button onClick={onClose} className={customStyles.modal.closeButton}>
             <X size={24} />
           </button>
         </div>
 
-        {/* Area selezione immagini */}
-        <div className="border-2 border-dashed border-gray-600 rounded-lg p-4 mb-4 min-h-[200px] flex flex-col items-center justify-center">
+        <div className={customStyles.modal.imageUpload.container}>
           {selectedImages.length === 0 ? (
             <div className="text-center">
               <label className="cursor-pointer flex flex-col items-center">
                 <ImageIcon size={48} className="text-gray-400 mb-2" />
-                <span className="text-white">Clicca qui per caricare le tue foto</span>
+                <span className="text-[#1D1D1D]">Clicca qui per caricare le tue foto</span>
                 <input
                   type="file"
                   multiple
@@ -116,13 +116,13 @@ const CreatePostModal = ({ isOpen, onClose }) => {
               </label>
             </div>
           ) : (
-            <div className="grid grid-cols-2 gap-2 w-full">
+            <div className={customStyles.modal.imageUpload.preview}>
               {selectedImages.map((image, index) => (
                 <div key={index} className="relative">
                   <img
                     src={image.preview}
                     alt={`Preview ${index}`}
-                    className="w-full h-32 object-cover rounded"
+                    className={customStyles.modal.imageUpload.previewItem}
                   />
                   <button
                     onClick={() => removeImage(index)}
@@ -132,7 +132,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                   </button>
                 </div>
               ))}
-              <label className="cursor-pointer flex items-center justify-center h-32 bg-gray-800 rounded">
+              <label className="cursor-pointer flex items-center justify-center h-32 bg-gray-200 rounded">
                 <ImageIcon size={24} className="text-gray-400" />
                 <input
                   type="file"
@@ -146,23 +146,21 @@ const CreatePostModal = ({ isOpen, onClose }) => {
           )}
         </div>
 
-        {/* Campo location */}
         <input
           type="text"
           value={location}
           readOnly
-          className="w-full bg-gray-800 text-white p-3 rounded mb-4"
+          className={customStyles.modal.input}
         />
 
-        {/* Campo descrizione */}
         <textarea
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           placeholder="Scrivi una descrizione (max 200 caratteri)..."
           maxLength={200}
-          className="w-full bg-gray-800 text-white p-3 rounded mb-4 min-h-[100px]"
+          className={customStyles.modal.textarea}
         />
-        
+
         {error && (
           <Alert variant="destructive" className="mb-4">
             <AlertTitle>Errore</AlertTitle>
@@ -170,14 +168,12 @@ const CreatePostModal = ({ isOpen, onClose }) => {
           </Alert>
         )}
 
-        {/* Pulsante crea */}
         <button
           onClick={handleSubmit}
-          className={`w-full p-3 rounded font-medium ${
-            !description.trim() || selectedImages.length === 0
-              ? 'bg-gray-600 text-gray-400'
-              : 'bg-blue-500 text-white'
-          }`}
+          className={`${utilities.button.primary} ${!description.trim() || selectedImages.length === 0
+            ? 'opacity-50 cursor-not-allowed'
+            : ''
+            }`}
         >
           Crea
         </button>

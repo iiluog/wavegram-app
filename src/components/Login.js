@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { authApi } from '../services/apiSWR';
+import { utilities, customStyles } from '../styles/appTheme';
+import logoHome from '../assets/logo-home.png';
 
 const Login = () => {
   const [username, setUsername] = useState('');
@@ -27,41 +29,44 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black flex flex-col items-center justify-center p-4">
-      <div className="w-full max-w-md">
-        <h1 className="text-white text-4xl font-bold text-center mb-12">
-          Wavegram
-        </h1>
-        
-        <form onSubmit={handleSubmit} className="space-y-4">
+    <div className={customStyles.auth.container}>
+      <div className={utilities.container.maxWidthMd}>
+        {/* Logo */}
+        <img
+          src={logoHome}
+          alt="WAVEGRAM©"
+          className={customStyles.logo}
+        />
+
+        <form onSubmit={handleSubmit} className={customStyles.auth.form}>
           <input
             type="text"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             placeholder="Il tuo username (solo lettere minuscole)"
-            className="w-full bg-transparent text-white border border-gray-700 rounded-lg p-4 focus:outline-none focus:border-gray-500"
+            className={utilities.input.base}
           />
-          
+
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             placeholder="Password (almeno 8 caratteri)"
-            className="w-full bg-transparent text-white border border-gray-700 rounded-lg p-4 focus:outline-none focus:border-gray-500"
+            className={utilities.input.base}
           />
-          
+
           <button
             type="submit"
-            className="w-full bg-gray-700 text-white rounded-lg p-4 hover:bg-gray-600 transition-colors"
+            className={utilities.button.primary}
           >
             Accedi
           </button>
         </form>
 
         <div className="mt-8 text-center">
-          <p className="text-white">
+          <p className="text-[#1D1D1D]">
             Non hai un account?{' '}
-            <Link to="/register" className="text-blue-500 hover:text-blue-400">
+            <Link to="/register" className={customStyles.auth.link}>
               Registrati
             </Link>
           </p>
