@@ -61,7 +61,7 @@ const WavegramApp = ({ onOpenModal }) => {
         {/* Header */}
         <div className={customStyles.header.base}>
           <div className={customStyles.header.wrapper}>
-            <span className={customStyles.header.date}>
+            <span className="wg-txt-primary">
               {new Date().toLocaleDateString('en-GB', {
                 day: '2-digit',
                 month: '2-digit',

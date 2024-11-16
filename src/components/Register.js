@@ -224,7 +224,7 @@ const Register = () => {
         </div>
 
         {errors.image && (
-          <p className={theme.colors.error}>{errors.image}</p>
+          <p className="text-error">{errors.image}</p>
         )}
 
         <form onSubmit={handleSubmit} className={customStyles.auth.form}>
@@ -239,7 +239,7 @@ const Register = () => {
                 }`}
             />
             {errors.username && (
-              <p className={theme.colors.error}>{errors.username}</p>
+              <p className="text-error">{errors.username}</p>
             )}
           </div>
 
@@ -254,7 +254,7 @@ const Register = () => {
                 }`}
             />
             {errors.email && (
-              <p className={theme.colors.error}>{errors.email}</p>
+              <p className="text-error">{errors.email}</p>
             )}
           </div>
 
@@ -269,7 +269,7 @@ const Register = () => {
                 }`}
             />
             {errors.password && (
-              <p className={theme.colors.error}>{errors.password}</p>
+              <p className="text-error">{errors.password}</p>
             )}
           </div>
 
@@ -284,7 +284,7 @@ const Register = () => {
                 }`}
             />
             {errors.confirmPassword && (
-              <p className={theme.colors.error}>{errors.confirmPassword}</p>
+              <p className="text-error">{errors.confirmPassword}</p>
             )}
           </div>
 
@@ -298,12 +298,12 @@ const Register = () => {
           </button>
 
           {errors.submit && (
-            <p className={theme.colors.error}>{errors.submit}</p>
+            <p className="text-error">{errors.submit}</p>
           )}
         </form>
 
         <div className="mt-8 text-center">
-          <p className="text-[#1D1D1D]">
+          <p className="text-textPrimary">
             Hai già un account?{' '}
             <Link to="/login" className={customStyles.auth.link}>
               Login

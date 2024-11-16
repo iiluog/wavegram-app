@@ -47,9 +47,9 @@ const Post = ({ post }) => {
                         alt={post.username}
                         className={customStyles.profileImage}
                     />
-                    <span className={customStyles.post.header.username}>{post.username}</span>
+                    <span className="wg-txt-primary">{post.username}</span>
                 </div>
-                <span className={customStyles.post.header.counter}>1/{post.images?.length || 0}</span>
+                <span className="wg-txt-primary">1/{post.images?.length || 0}</span>
             </div>
 
             <div className={customStyles.post.image.wrapper}>
@@ -74,8 +74,8 @@ const Post = ({ post }) => {
                 </div>
 
                 <div className="text-sm">
-                    <p className={customStyles.post.description}>
-                        {post.description || 'Lorem ipsum dolor sit amet...'}
+                    <p className="wg-txt-body">
+                        {post.description}
                     </p>
                 </div>
             </div>

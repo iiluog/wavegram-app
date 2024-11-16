@@ -1,19 +1,5 @@
 // Theme esteso con più utility
 export const theme = {
-  colors: {
-    background: '#E6E6E6',
-    text: '#1D1D1D',
-    textSecondary: '#5E5E5E',
-    primary: '#1D1D1D',
-    error: '#DC2626',
-    success: '#059669',
-    white: '#FFFFFF',
-    border: '#gray-300',
-  },
-  spacing: {
-    standard: 'p-4',
-    rounded: 'rounded-lg'
-  },
   flexLayout: {
     center: 'flex items-center justify-center',
     between: 'flex justify-between items-center',
@@ -21,39 +7,34 @@ export const theme = {
     gap2: 'gap-2',
     gap4: 'gap-4'
   },
-  typography: {
-    title: 'text-4xl font-bold',
-    subtitle: 'text-2xl font-medium',
-    body: 'text-base',
-    small: 'text-sm'
-  }
+  body: 'text-base',
+  small: 'text-sm'
 };
 
 // Utility styles riutilizzabili
 export const utilities = {
   container: {
-    fullScreen: `min-h-screen bg-[${theme.colors.background}]`,
+    fullScreen: `min-h-screen bg-background`,
     maxWidth: 'w-full max-w-xl',
     maxWidthMd: 'w-full max-w-md'
   },
   input: {
-    base: `w-full bg-[${theme.colors.white}] text-[${theme.colors.text}] rounded-lg p-4 focus:outline-none focus:border-gray-500`
+    base: `w-full bg-white text-textPrimary rounded-lg p-4 focus:outline-none focus:border-gray-500`
   },
   button: {
-    primary: `w-full bg-[${theme.colors.primary}] text-white rounded-lg p-4 hover:bg-opacity-90 transition-colors`
+    primary: `w-full bg-primary text-white rounded-lg p-4 hover:bg-opacity-90 transition-colors`
   }
 };
 
 // Stili comuni per l'applicazione
 export const customStyles = {
   // Layout containers (esistenti per retrocompatibilità)
-  pageContainer: `min-h-screen bg-[${theme.colors.background}] text-[${theme.colors.text}] flex justify-center`,
+  pageContainer: `min-h-screen bg-background text-textPrimary flex justify-center`,
 
   // Headers
   header: {
-    base: `sticky top-0 bg-[${theme.colors.background}] z-50 px-4 py-3`,
+    base: `sticky top-0 bg-background z-50 px-4 py-3`,
     wrapper: `${theme.flexLayout.between}`,
-    date: `text-2xl font-medium text-[${theme.colors.text}]`,
     actions: `${theme.flexLayout.center}`
   },
 
@@ -69,12 +50,10 @@ export const customStyles = {
   // Post styles
   post: {
     container: "mb-6 pb-6",
-    divider: `w-full h-[1px] bg-[${theme.colors.text}] mb-4`,
+    divider: `w-full h-[1px] bg-textPrimary mb-4`,
     header: {
       wrapper: `${theme.flexLayout.between} px-4 py-2`,
       userInfo: `${theme.flexLayout.center} gap-2`,
-      username: `text-2xl uppercase font-medium text-[${theme.colors.text}]`,
-      counter: `text-2xl font-medium text-[${theme.colors.text}]`
     },
     image: {
       wrapper: "relative px-4",
@@ -85,18 +64,17 @@ export const customStyles = {
       container: `${theme.flexLayout.between}`,
       buttons: `flex ${theme.flexLayout.gap4}`,
       button: "w-6 h-6",
-      info: `flex flex-col text-base items-end justify-center text-[${theme.colors.textSecondary}] leading-tight`
-    },
-    description: `text-sm font-normal mb-2 text-[${theme.colors.text}] text-base`
+      info: `flex flex-col items-end justify-center wg-txt-info`
+    }
   },
 
   // Modal styles
   modal: {
-    overlay: `fixed inset-0 bg-[${theme.colors.text}] bg-opacity-50 ${theme.flexLayout.center} p-4 z-[100] overflow-y-auto`,
-    container: `bg-[${theme.colors.background}] ${theme.spacing.rounded} w-full max-w-md ${theme.spacing.standard} relative max-h-[90vh] overflow-y-auto`,
+    overlay: `fixed inset-0 bg-textPrimary bg-opacity-50 ${theme.flexLayout.center} p-4 z-[100] overflow-y-auto`,
+    container: `bg-background wg-rounded w-full max-w-md wg-padding-standard relative max-h-[90vh] overflow-y-auto`,
     header: `${theme.flexLayout.between} mb-6`,
-    title: `text-xl text-[${theme.colors.text}] font-bold`,
-    closeButton: `text-[${theme.colors.text}]`,
+    title: `text-xl text-textPrimary font-bold`,
+    closeButton: `text-textPrimary`,
     imageUpload: {
       container: "border-2 border-dashed border-gray-400 rounded-lg p-4 mb-4 min-h-[200px]",
       preview: "grid grid-cols-2 gap-2 w-full",
@@ -111,14 +89,14 @@ export const customStyles = {
   logo: "w-full max-w-xl py-2",
 
   // Buttons
-  iconButton: `text-3xl ml-2 font-bold text-[${theme.colors.text}] cursor-pointer hover:opacity-80`,
+  iconButton: `text-3xl ml-2 font-bold text-textPrimary cursor-pointer hover:opacity-80`,
 
   // Loading states
-  loadingSpinner: `inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-[${theme.colors.text}]`,
+  loadingSpinner: `inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-textPrimary`,
   loadingContainer: "text-center p-4",
 
   // Error states
-  errorContainer: `min-h-screen bg-[${theme.colors.background}] text-[${theme.colors.text}] ${theme.flexLayout.center}`,
+  errorContainer: `min-h-screen bg-background text-textPrimary ${theme.flexLayout.center}`,
 
   // Main content
   mainContent: "pb-24"

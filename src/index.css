@@ -15,3 +15,21 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+@layer components {
+  .wg-txt-primary {
+    @apply text-2xl font-medium uppercase text-textPrimary;
+  }
+  .wg-txt-body {
+    @apply text-sm font-normal mb-2 text-textPrimary text-base;
+  }
+  .wg-txt-info {
+    @apply text-sm text-textSecondary leading-tight;
+  }
+  .wg-rounded {
+    @apply rounded-lg;
+  }
+  .wg-padding-standard {
+    @apply p-4;
+  }
+}
