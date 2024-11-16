@@ -166,6 +166,22 @@ export const usersApi = {
             isError: error
         };
     },
+    useGetMe: () => {
+        const { data, error, isLoading } = useSWR(
+            '/users/me',
+            fetcher,
+            {
+                revalidateOnFocus: false,
+                shouldRetryOnError: false
+            }
+        );
+
+        return {
+            user: data?.user,
+            isLoading,
+            isError: error
+        };
+    },
     update: async (id, data) => {
         const response = await api.put(`/users/${id}`, data);
         mutate('/users');

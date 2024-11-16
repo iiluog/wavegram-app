@@ -4,10 +4,12 @@ import { postsApi } from '../services/apiSWR';
 import { BASE_URL } from '../services/apiSWR';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import useUserStore from '../stores/userStore';
 
 const WavegramApp = ({ onOpenModal }) => {
   const { logout } = useAuth();
   const navigate = useNavigate();
+  const { currentUser, getProfileImageUrl } = useUserStore();
   const { 
     posts, 
     isLoading, 
@@ -90,7 +92,6 @@ const WavegramApp = ({ onOpenModal }) => {
         <div className="flex justify-between items-center p-4 max-w-2xl mx-auto">
           <h1 className="text-xl font-bold">Wavegram</h1>
           <div className="flex items-center space-x-4">
-            <PlusSquare className="w-6 h-6 cursor-pointer" onClick={onOpenModal} />
             <LogOut 
               className="w-6 h-6 cursor-pointer hover:text-red-500 transition-colors" 
               onClick={handleLogout}
@@ -171,9 +172,16 @@ const WavegramApp = ({ onOpenModal }) => {
       <nav className="fixed bottom-0 w-full bg-black border-t border-gray-800">
         <div className="flex justify-around items-center p-4 max-w-2xl mx-auto">
           <Home className="w-6 h-6" />
-          <Search className="w-6 h-6" />
-          <PlusSquare className="w-6 h-6" />
-          <User className="w-6 h-6" />
+          <PlusSquare className="w-6 h-6" onClick={onOpenModal}/>
+          {currentUser?.profile_image ? (
+            <img
+              src={getProfileImageUrl(currentUser.profile_image)}
+              alt={currentUser.username}
+              className="w-6 h-6 rounded-full object-cover"
+            />
+          ) : (
+            <User className="w-6 h-6" />
+          )}
         </div>
       </nav>
     </div>

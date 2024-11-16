@@ -1,40 +1,42 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { authApi } from '../services/apiSWR';
+import { authApi, usersApi } from '../services/apiSWR';
+import useUserStore from '../stores/userStore';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
   const [token, setToken] = useState(localStorage.getItem('auth_token'));
   const [isAuthenticated, setIsAuthenticated] = useState(!!localStorage.getItem('auth_token'));
+  const { user, isError } = usersApi.useGetMe();
 
+  // Effetto per gestire i dati dell'utente
   useEffect(() => {
-    const token = localStorage.getItem('auth_token');
-    if (token) {
-      setIsAuthenticated(true);
-      setToken(token);
+    if (isAuthenticated && user) {
+      useUserStore.getState().setCurrentUser(user);
     }
-  }, []);
+    
+    if (isError) {
+      logout();
+    }
+  }, [isAuthenticated, user, isError]);
 
-  const login = (userData, accessToken) => {
-    setUser(userData);
+  const login = async (userData, accessToken) => {
+    useUserStore.getState().setCurrentUser(userData);
     setToken(accessToken);
     setIsAuthenticated(true);
-    localStorage.setItem('auth_token', accessToken);
   };
 
   const register = (userData, accessToken) => {
-    setUser(userData);
+    useUserStore.getState().setCurrentUser(userData);
     setToken(accessToken);
     setIsAuthenticated(true);
-    localStorage.setItem('auth_token', accessToken);
   };
 
   const logout = () => {
-    setUser(null);
     setToken(null);
     setIsAuthenticated(false);
     authApi.logout();
+    useUserStore.getState().clearCurrentUser();
   };
 
   const value = {
