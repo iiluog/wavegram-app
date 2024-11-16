@@ -1,10 +1,47 @@
-import React from 'react';
-import { Heart, MessageCircle, Send, Bookmark, MoreHorizontal, Home, Search, PlusSquare, User } from 'lucide-react';
+import React, { useEffect, useCallback } from 'react';
+import { Heart, MessageCircle, Send, Bookmark, MoreHorizontal, Home, Search, PlusSquare, User, LogOut } from 'lucide-react';
 import { postsApi } from '../services/apiSWR';
 import { BASE_URL } from '../services/apiSWR';
+import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 
 const WavegramApp = ({ onOpenModal }) => {
-  const { posts, isLoading, isError } = postsApi.useGetAll();
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+  const { 
+    posts, 
+    isLoading, 
+    isLoadingMore, 
+    loadMore, 
+    isReachingEnd, 
+    error: isError 
+  } = postsApi.useGetAll();
+
+  // Funzione per controllare se siamo vicini alla fine
+  const handleScroll = useCallback(() => {
+    if (isLoadingMore || isReachingEnd) return;
+    
+    const scrollTop = window.scrollY;
+    const scrollHeight = document.documentElement.scrollHeight;
+    const clientHeight = document.documentElement.clientHeight;
+    
+    // Carica più post quando siamo a 300px dalla fine
+    if (scrollHeight - scrollTop - clientHeight < 300) {
+      loadMore();
+    }
+  }, [isLoadingMore, isReachingEnd, loadMore]);
+
+  // Aggiungi l'event listener per lo scroll
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [handleScroll]);
+
+  // Funzione per gestire il logout
+  const handleLogout = () => {
+    logout();
+    navigate('/login');
+  };
 
   if (isLoading) {
     return <div className="min-h-screen bg-black text-white flex items-center justify-center">Loading...</div>;
@@ -53,10 +90,11 @@ const WavegramApp = ({ onOpenModal }) => {
         <div className="flex justify-between items-center p-4 max-w-2xl mx-auto">
           <h1 className="text-xl font-bold">Wavegram</h1>
           <div className="flex items-center space-x-4">
-            <Heart className="w-6 h-6"/>
-            <MessageCircle className="w-6 h-6" />
             <PlusSquare className="w-6 h-6 cursor-pointer" onClick={onOpenModal} />
-          
+            <LogOut 
+              className="w-6 h-6 cursor-pointer hover:text-red-500 transition-colors" 
+              onClick={handleLogout}
+            />
           </div>
         </div>
       </header>
@@ -113,6 +151,20 @@ const WavegramApp = ({ onOpenModal }) => {
             </div>
           </article>
         ))}
+        
+        {/* Indicatore di caricamento per altri post */}
+        {isLoadingMore && (
+          <div className="text-center p-4">
+            <div className="inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-white"></div>
+          </div>
+        )}
+        
+        {/* Messaggio quando non ci sono più post */}
+        {isReachingEnd && posts.length > 0 && (
+          <div className="text-center p-4 text-gray-500">
+            No more posts to load
+          </div>
+        )}
       </main>
 
       {/* Bottom Navigation */}

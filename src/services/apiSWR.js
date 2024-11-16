@@ -1,5 +1,6 @@
 import useSWR, { mutate } from 'swr';
 import axios from 'axios';
+import useSWRInfinite from 'swr/infinite';
 
 export const BASE_URL = 'http://localhost/wavegram';
 const API_BASE_URL = `${BASE_URL}/api`;
@@ -89,17 +90,49 @@ api.interceptors.response.use(
     }
 );
 
-// Fetcher generico per SWR
-const fetcher = url => api.get(url).then(res => res.data);
+// Aggiungiamo l'interceptor per le richieste
+api.interceptors.request.use(
+    (config) => {
+        const token = localStorage.getItem('auth_token');
+        if (token) {
+            config.headers['Authorization'] = `Bearer ${token}`;
+        }
+        return config;
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
+
+// Modifichiamo il fetcher per includere il token
+const fetcher = url => {
+    const token = localStorage.getItem('auth_token');
+    if (!token) {
+        throw new Error('No auth token available');
+    }
+    return api.get(url).then(res => res.data);
+};
 
 // Posts API con SWR
 export const postsApi = {
-    useGetAll: () => {
-        const { data, error, isLoading } = useSWR('/posts', fetcher);
+    useGetAll: (page = 1, limit = 5) => {
+        const { data, error, size, setSize, isLoading } = useSWRInfinite(
+            (pageIndex) => `${API_BASE_URL}/posts?page=${pageIndex + 1}&limit=${limit}`,
+            fetcher
+        );
+
+        const posts = data ? [].concat(...data) : [];
+        const isLoadingMore = isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
+        const isEmpty = data?.[0]?.length === 0;
+        const isReachingEnd = isEmpty || (data && data[data.length - 1]?.length < limit);
+
         return {
-            posts: data,
-            isLoading,
-            isError: error
+            posts,
+            error,
+            isLoading: isLoading && !data,
+            isLoadingMore,
+            loadMore: () => setSize(size + 1),
+            isReachingEnd
         };
     },
     create: async (formData) => {
@@ -227,5 +260,66 @@ export const authApi = {
         mutate('/users', null, false);
         mutate('/comments', null, false);
         mutate('/likes', null, false);
-    }
+    },
+
+    checkUsername: async (username) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/check-username`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username }),
+            });
+            
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            
+            return await response.json();
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    checkEmail: async (email) => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/auth/check-email`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email }),
+            });
+            
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            
+            return await response.json();
+        } catch (error) {
+            throw error;
+        }
+    },
+    
+    registerUser: async (formData) => {
+        try {
+            const response = await api.post('/users/register', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            
+            if (response.data) {
+                localStorage.setItem('auth_token', response.data.access_token);
+                if (response.data.refresh_token) {
+                    localStorage.setItem('refresh_token', response.data.refresh_token);
+                }
+            }
+            
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
 }; 
