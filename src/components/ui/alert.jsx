@@ -2,7 +2,7 @@ import * as React from "react"
 import { cn } from "../../lib/utils"
 
 const Alert = React.forwardRef(({ className, variant = "default", ...props }, ref) => {
-  const baseStyles = "relative w-full rounded-lg border p-4 [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground [&>svg~*]:pl-7"
+  const baseStyles = "relative w-full wg-rounded border wg-padding-standard [&>svg+div]:translate-y-[-3px] [&>svg]:absolute [&>svg]:left-4 [&>svg]:top-4 [&>svg]:text-foreground [&>svg~*]:pl-7"
   const variants = {
     default: "bg-background text-foreground",
     destructive: "border-red-500 text-red-500 bg-red-500/10",

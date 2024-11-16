@@ -26,10 +26,22 @@ code {
   .wg-txt-info {
     @apply text-sm text-textSecondary leading-tight;
   }
+  .wg-txt-link {
+    @apply text-blue-600 hover:text-blue-500;
+  }
   .wg-rounded {
     @apply rounded-lg;
   }
   .wg-padding-standard {
     @apply p-4;
+  }
+  .wg-logo {
+    @apply w-full max-w-xl py-2;
+  }
+  .wg-profile-image {
+    @apply w-7 h-7 rounded-full object-cover;
+  }
+  .wg-button-primary {
+    @apply w-full bg-primary text-white wg-rounded wg-padding-standard hover:bg-opacity-90 transition-colors;
   }
 }

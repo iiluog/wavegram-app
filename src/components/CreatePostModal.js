@@ -94,8 +94,8 @@ const CreatePostModal = ({ isOpen, onClose }) => {
     <div className={customStyles.modal.overlay}>
       <div className={customStyles.modal.container}>
         <div className={customStyles.modal.header}>
-          <h2 className={customStyles.modal.title}>Crea un post</h2>
-          <button onClick={onClose} className={customStyles.modal.closeButton}>
+          <h2 className="wg-txt-primary">Crea un ricordo</h2>
+          <button onClick={onClose} className="text-textPrimary">
             <X size={24} />
           </button>
         </div>
@@ -132,7 +132,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
                   </button>
                 </div>
               ))}
-              <label className="cursor-pointer flex items-center justify-center h-32 bg-gray-200 rounded">
+              <label className="cursor-pointer flex items-center justify-center h-32 bg-gray-200 wg-rounded">
                 <ImageIcon size={24} className="text-gray-400" />
                 <input
                   type="file"
@@ -170,7 +170,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
 
         <button
           onClick={handleSubmit}
-          className={`${utilities.button.primary} ${!description.trim() || selectedImages.length === 0
+          className={`wg-button-primary ${!description.trim() || selectedImages.length === 0
             ? 'opacity-50 cursor-not-allowed'
             : ''
             }`}

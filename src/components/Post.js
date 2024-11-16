@@ -1,7 +1,7 @@
 import React from 'react';
 import { Heart, MessageCircle, Send } from 'lucide-react';
 import { BASE_URL } from '../services/apiSWR';
-import { customStyles } from '../styles/appTheme';
+import { customStyles, utilities } from '../styles/appTheme';
 
 const Post = ({ post }) => {
     // Funzione helper per ottenere la prima immagine del post
@@ -40,12 +40,12 @@ const Post = ({ post }) => {
         <article className={customStyles.post.container}>
             <div className={customStyles.post.divider}></div>
 
-            <div className={customStyles.post.header.wrapper}>
+            <div className={utilities.flexLayout.between}>
                 <div className={customStyles.post.header.userInfo}>
                     <img
                         src={getProfileImage(post.profile_image)}
                         alt={post.username}
-                        className={customStyles.profileImage}
+                        className="wg-profile-image"
                     />
                     <span className="wg-txt-primary">{post.username}</span>
                 </div>
@@ -61,19 +61,19 @@ const Post = ({ post }) => {
             </div>
 
             <div className={customStyles.post.actions.wrapper}>
-                <div className={customStyles.post.actions.container}>
+                <div className={utilities.flexLayout.between}>
                     <div className={customStyles.post.actions.buttons}>
                         <button className={customStyles.post.actions.button}><Heart size={24} /></button>
                         <button className={customStyles.post.actions.button}><MessageCircle size={24} /></button>
                         <button className={customStyles.post.actions.button}><Send size={24} /></button>
                     </div>
                     <div className={customStyles.post.actions.info}>
-                        <span className="font-sm">BigRock</span>
-                        <span className="text-sm">{formatDate(post.created_at)}</span>
+                        <span className="wg-txt-info">BigRock</span>
+                        <span className="wg-txt-info">{formatDate(post.created_at)}</span>
                     </div>
                 </div>
 
-                <div className="text-sm">
+                <div>
                     <p className="wg-txt-body">
                         {post.description}
                     </p>

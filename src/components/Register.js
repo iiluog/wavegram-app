@@ -3,7 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { authApi } from '../services/apiSWR';
 import debounce from 'lodash/debounce';
-import { customStyles, utilities, theme } from '../styles/appTheme';
+import { customStyles, utilities } from '../styles/appTheme';
 import logoHome from '../assets/logo-home.png';
 
 // Crea le funzioni debounced fuori dai callback e dai componenti
@@ -181,13 +181,13 @@ const Register = () => {
   };
 
   return (
-    <div className={customStyles.auth.container}>
+    <div className={customStyles.formContainer}>
       <div className={utilities.container.maxWidthMd}>
         {/* Logo */}
         <img
           src={logoHome}
           alt="WAVEGRAM©"
-          className={customStyles.logo}
+          className="wg-logo"
         />
 
         <div className="m-8 flex justify-center">
@@ -227,7 +227,7 @@ const Register = () => {
           <p className="text-error">{errors.image}</p>
         )}
 
-        <form onSubmit={handleSubmit} className={customStyles.auth.form}>
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <input
               type="text"
@@ -291,8 +291,7 @@ const Register = () => {
           <button
             type="submit"
             disabled={!isUsernameAvailable || !isEmailAvailable}
-            className={`${utilities.button.primary} ${(!isUsernameAvailable || !isEmailAvailable) ? 'opacity-50 cursor-not-allowed' : ''
-              }`}
+            className={`wg-button-primary ${(!isUsernameAvailable || !isEmailAvailable) ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             Registrati
           </button>
@@ -305,7 +304,7 @@ const Register = () => {
         <div className="mt-8 text-center">
           <p className="text-textPrimary">
             Hai già un account?{' '}
-            <Link to="/login" className={customStyles.auth.link}>
+            <Link to="/login" className="wg-txt-link">
               Login
             </Link>
           </p>

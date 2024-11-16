@@ -55,16 +55,16 @@ const Login = () => {
   };
 
   return (
-    <div className={customStyles.auth.container}>
+    <div className={customStyles.formContainer}>
       <div className={utilities.container.maxWidthMd}>
         {/* Logo */}
         <img
           src={logoHome}
           alt="WAVEGRAM©"
-          className={`${customStyles.logo} mb-16`}
+          className="wg-logo mb-16"
         />
 
-        <form onSubmit={handleSubmit} className={customStyles.auth.form}>
+        <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <input
               type="text"
@@ -93,7 +93,7 @@ const Login = () => {
 
           <button
             type="submit"
-            className={utilities.button.primary}
+            className={`wg-button-primary ${(!username || !password) ? 'opacity-50 cursor-not-allowed' : ''}`}
           >
             Accedi
           </button>
@@ -106,7 +106,7 @@ const Login = () => {
         <div className="mt-8 text-center">
           <p className="text-[#1D1D1D]">
             Non hai un account?{' '}
-            <Link to="/register" className={customStyles.auth.link}>
+            <Link to="/register" className="wg-txt-link">
               Registrati
             </Link>
           </p>
