@@ -1,34 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Heart, MessageCircle, Send, Bookmark, MoreHorizontal, Home, Search, PlusSquare, User } from 'lucide-react';
-import { postsApi } from '../services/api';
-import { BASE_URL } from '../services/api';
+import { postsApi } from '../services/apiSWR';
+import { BASE_URL } from '../services/apiSWR';
 
 const WavegramApp = ({ onOpenModal }) => {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const { posts, isLoading, isError } = postsApi.useGetAll();
 
-  useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const response = await postsApi.getAll();
-        setPosts(response.data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPosts();
-  }, []);
-
-  if (loading) {
+  if (isLoading) {
     return <div className="min-h-screen bg-black text-white flex items-center justify-center">Loading...</div>;
   }
 
-  if (error) {
-    return <div className="min-h-screen bg-black text-white flex items-center justify-center">Error: {error}</div>;
+  if (isError) {
+    return <div className="min-h-screen bg-black text-white flex items-center justify-center">Error: {isError.message}</div>;
   }
 
   // Funzione helper per ottenere la prima immagine del post

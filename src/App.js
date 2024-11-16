@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Login from './components/Login';
-import Home from './components/Home';
 import WavegramApp from './components/WavegramApp';
 import CreatePostModal from './components/CreatePostModal';
 

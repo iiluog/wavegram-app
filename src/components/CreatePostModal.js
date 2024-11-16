@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { X, Image as ImageIcon } from 'lucide-react';
 import { Alert, AlertTitle, AlertDescription } from './ui/alert';
-import { postsApi } from '../services/api';
+import { postsApi } from '../services/apiSWR';
 
 const CreatePostModal = ({ isOpen, onClose }) => {
   const [location, setLocation] = useState('');
@@ -69,7 +69,6 @@ const CreatePostModal = ({ isOpen, onClose }) => {
       formData.append('location', location);
       formData.append('description', description);
       
-      // Aggiungi tutte le immagini
       selectedImages.forEach((image, index) => {
         formData.append('images[]', image.file);
       });
@@ -77,7 +76,6 @@ const CreatePostModal = ({ isOpen, onClose }) => {
       const response = await postsApi.create(formData);
       
       if (response.data.success) {
-        // Reset e chiusura
         setDescription('');
         setSelectedImages([]);
         setError('');
