@@ -1,20 +1,25 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Heart, MessageCircle, Send } from 'lucide-react';
-import { BASE_URL } from '../services/apiSWR';
-import { customStyles, utilities } from '../styles/appTheme';
+import { BASE_URL } from '@/services/apiSWR';
+import { customStyles, utilities } from '@/styles/appTheme';
+import { Card, CardContent } from "@/components/ui/card"
+import {
+    Carousel,
+    CarouselContent,
+    CarouselItem,
+} from "@/components/ui/carousel"
 
 const Post = ({ post }) => {
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const touchStartX = useRef(null);
-    const touchEndX = useRef(null);
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const [api, setApi] = useState(null);
 
-    // Funzione helper per ottenere la prima immagine del post
-    const getPostImage = (images) => {
-        if (images && images.length > 0) {
-            return `${BASE_URL}/uploads/${images[currentImageIndex]}`;
-        }
-        return 'https://placehold.co/400x400?text=Not+available';
-    };
+    useEffect(() => {
+        if (!api) return;
+
+        api.on('select', () => {
+            setCurrentSlide(api.selectedScrollSnap());
+        });
+    }, [api]);
 
     // Funzione helper per ottenere l'immagine del profilo
     const getProfileImage = (image) => {
@@ -40,34 +45,6 @@ const Post = ({ post }) => {
         return 'now';
     };
 
-    const handleTouchStart = (e) => {
-        touchStartX.current = e.touches[0].clientX;
-    };
-
-    const handleTouchMove = (e) => {
-        touchEndX.current = e.touches[0].clientX;
-    };
-
-    const handleTouchEnd = () => {
-        if (!touchStartX.current || !touchEndX.current) return;
-
-        const diff = touchStartX.current - touchEndX.current;
-        const threshold = 50; // Minima distanza per lo swipe
-
-        if (Math.abs(diff) > threshold) {
-            if (diff > 0 && currentImageIndex < (post.images?.length - 1)) {
-                // Swipe verso sinistra
-                setCurrentImageIndex(prev => prev + 1);
-            } else if (diff < 0 && currentImageIndex > 0) {
-                // Swipe verso destra
-                setCurrentImageIndex(prev => prev - 1);
-            }
-        }
-
-        touchStartX.current = null;
-        touchEndX.current = null;
-    };
-
     return (
         <article className={customStyles.post.container}>
             <div className={customStyles.post.divider}></div>
@@ -81,47 +58,37 @@ const Post = ({ post }) => {
                     />
                     <span className="wg-txt-primary">{post.username}</span>
                 </div>
-                <span className="wg-txt-primary">
-                    {currentImageIndex + 1}/{post.images?.length || 0}
-                </span>
             </div>
-
-            <div className={customStyles.post.image.wrapper}>
-                <div 
-                    className={customStyles.post.image.carousel}
-                    style={{
-                        display: 'flex',
-                        transform: `translateX(-${currentImageIndex * 100}%)`,
-                        transition: 'transform 0.3s ease-in-out'
-                    }}
-                >
+            <Carousel className="w-xl" setApi={setApi}>
+                <CarouselContent>
                     {post.images?.map((image, index) => (
-                        <img
-                            key={index}
-                            src={`${BASE_URL}/uploads/${image}`}
-                            alt=""
-                            className={customStyles.post.image.img}
-                            onTouchStart={handleTouchStart}
-                            onTouchMove={handleTouchMove}
-                            onTouchEnd={handleTouchEnd}
-                            style={{ flexShrink: 0, width: '100%' }}
-                        />
+                        <CarouselItem key={index}>
+                            <div className="w-screen aspect-square">
+                                <img
+                                    src={`${BASE_URL}/uploads/${image}`}
+                                    alt=""
+                                    className="w-screen aspect-square object-cover"
+                                />
+                            </div>
+                        </CarouselItem>
                     ))}
-                </div>
+                </CarouselContent>
                 {post.images?.length > 1 && (
-                    <div className={customStyles.post.image.dots}>
-                        {post.images.map((_, index) => (
-                            <span
-                                key={index}
-                                className={`${customStyles.post.image.dot} ${
-                                    index === currentImageIndex ? customStyles.post.image.dotActive : ''
-                                }`}
-                                onClick={() => setCurrentImageIndex(index)}
-                            />
-                        ))}
-                    </div>
+                    <>
+                        <div className={customStyles.post.image.dots}>
+                            {post.images.map((_, index) => (
+                                <span
+                                    key={index}
+                                    className={`${customStyles.post.image.dot} ${
+                                        index === currentSlide ? customStyles.post.image.dotActive : ''
+                                    }`}
+                                    onClick={() => api?.scrollTo(index)}
+                                />
+                            ))}
+                        </div>
+                    </>
                 )}
-            </div>
+            </Carousel>
 
             <div className={customStyles.post.actions.wrapper}>
                 <div className={utilities.flexLayout.between}>

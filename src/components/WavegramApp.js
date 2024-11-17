@@ -1,5 +1,4 @@
 import React, { useEffect, useCallback } from 'react';
-import { Heart, MessageCircle, Send, Bookmark, MoreHorizontal, Home, Search, PlusSquare, User, LogOut, Share } from 'lucide-react';
 import { postsApi } from '../services/apiSWR';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
