@@ -4,48 +4,48 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 47.4% 11.2%;
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 47.4% 11.2%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 47.4% 11.2%;
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
-    --destructive: 0 100% 50%;
-    --destructive-foreground: 210 40% 98%;
-    --ring: 215 20.2% 65.1%;
+    --background: #E6E6E6;
+    --foreground: #E6E6E6;
+    --muted: #F1F5F9;
+    --muted-foreground: #64748B;
+    --popover: #1d1d1dc0;
+    --popover-foreground: #1C2B48;
+    --border: #E1E7EF;
+    --input: #E1E7EF;
+    --card: #FFFFFF;
+    --card-foreground: #1C2B48;
+    --primary: #1C1C1C;
+    --primary-foreground: #1C1C1C;
+    --secondary: #5E5E5E;
+    --secondary-foreground: #5E5E5E;
+    --accent: #F1F5F9;
+    --accent-foreground: #1C2B48;
+    --destructive: #FF0000;
+    --destructive-foreground: #F8FAFC;
+    --ring: #94A3B8;
     --radius: 0.5rem;
   }
 
   .dark {
-    --background: 224 71% 4%;
-    --foreground: 213 31% 91%;
-    --muted: 223 47% 11%;
-    --muted-foreground: 215.4 16.3% 56.9%;
-    --accent: 216 34% 17%;
-    --accent-foreground: 210 40% 98%;
-    --popover: 224 71% 4%;
-    --popover-foreground: 215 20.2% 65.1%;
-    --border: 216 34% 17%;
-    --input: 216 34% 17%;
-    --card: 224 71% 4%;
-    --card-foreground: 213 31% 91%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 1.2%;
-    --secondary: 222.2 47.4% 11.2%;
-    --secondary-foreground: 210 40% 98%;
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 210 40% 98%;
-    --ring: 216 34% 17%;
+    --background: #030711;
+    --foreground: #E1E6EF;
+    --muted: #1C2B48;
+    --muted-foreground: #94A3B8;
+    --accent: #1E293B;
+    --accent-foreground: #F8FAFC;
+    --popover: #030711;
+    --popover-foreground: #94A3B8;
+    --border: #1E293B;
+    --input: #1E293B;
+    --card: #030711;
+    --card-foreground: #E1E6EF;
+    --primary: #F8FAFC;
+    --primary-foreground: #020408;
+    --secondary: #1C2B48;
+    --secondary-foreground: #F8FAFC;
+    --destructive: #7E1D1D;
+    --destructive-foreground: #F8FAFC;
+    --ring: #1E293B;
   }
 }
 
@@ -55,5 +55,36 @@
   }
   body {
     @apply font-sans antialiased bg-background text-foreground;
+  }
+
+  .wg-txt-primary {
+    @apply text-2xl font-medium uppercase text-textPrimary;
+  }
+  .wg-txt-body {
+    @apply text-sm font-normal mb-2 text-textPrimary text-base;
+  }
+  .wg-txt-info {
+    @apply text-sm text-textSecondary leading-tight;
+  }
+  .wg-txt-link {
+    @apply text-blue-600 hover:text-blue-500;
+  }
+  .wg-input {
+    @apply w-full bg-white text-textPrimary wg-rounded wg-padding-standard focus:outline-none focus:border-gray-500;
+  }
+  .wg-rounded {
+    @apply rounded-lg;
+  }
+  .wg-padding-standard {
+    @apply p-4;
+  }
+  .wg-logo {
+    @apply w-full max-w-xl py-2;
+  }
+  .wg-profile-image {
+    @apply w-7 h-7 rounded-full object-cover;
+  }
+  .wg-button-primary {
+    @apply w-full bg-primary text-white wg-rounded wg-padding-standard hover:bg-opacity-90 transition-colors;
   }
 }

@@ -94,7 +94,7 @@ const CreatePostModal = ({ isOpen, onClose }) => {
     <div className={customStyles.modal.overlay}>
       <div className={customStyles.modal.container}>
         <div className={customStyles.modal.header}>
-          <h2 className="wg-txt-primary">Crea un ricordo</h2>
+          <h2 className="wg-">Crea un ricordo</h2>
           <button onClick={onClose} className="text-textPrimary">
             <X size={24} />
           </button>

@@ -47,7 +47,7 @@ export const customStyles = {
 
   // Modal styles
   modal: {
-    overlay: `fixed inset-0 bg-textPrimary bg-opacity-50 ${utilities.flexLayout.center} wg-padding-standard z-modal overflow-y-auto`,
+    overlay: `fixed inset-0 bg-popover ${utilities.flexLayout.center} wg-padding-standard z-modal overflow-y-auto`,
     container: `bg-background wg-rounded w-full max-w-md wg-padding-standard relative max-h-[90vh] overflow-y-auto`,
     header: `${utilities.flexLayout.between} mb-6`,
     imageUpload: {
