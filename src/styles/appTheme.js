@@ -19,12 +19,11 @@ export const customStyles = {
   formContainer: `${utilities.container.fullScreen} ${utilities.flexLayout.center} ${utilities.flexLayout.column} wg-padding-standard`,
   // Headers
   header: {
-    base: `sticky top-0 bg-background z-header px-4 py-3`,
+    base: `sticky top-0 bg-background z-header h-14 px-4 py-3`,
   },
   // Post styles
   post: {
     container: "mb-6 pb-6",
-    divider: `w-full h-[1px] bg-textPrimary mb-4`,
     header: {
       wrapper: `${utilities.flexLayout.between} px-4 py-2`,
       userInfo: `${utilities.flexLayout.center} gap-2`,

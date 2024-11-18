@@ -87,4 +87,8 @@
   .wg-button-primary {
     @apply w-full bg-primary text-white wg-rounded wg-padding-standard hover:bg-opacity-90 transition-colors;
   }
+  .wg-divider {
+    height: 2px;
+    @apply w-full bg-primary;
+  }
 }

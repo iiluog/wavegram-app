@@ -3,9 +3,8 @@ import { postsApi } from '../services/apiSWR';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import useUserStore from '../stores/userStore';
-import logoHome from '../assets/logo-home.png';
-import Post from './Post';
 import { customStyles, utilities } from '../styles/appTheme';
+import VerticalViewPager from './ui/PostViewPager';
 
 const WavegramApp = ({ onOpenModal }) => {
   const { logout } = useAuth();
@@ -20,31 +19,18 @@ const WavegramApp = ({ onOpenModal }) => {
     error: isError
   } = postsApi.useGetAll();
 
-  // Funzione per controllare se siamo vicini alla fine
-  const handleScroll = useCallback(() => {
-    if (isLoadingMore || isReachingEnd) return;
-
-    const scrollTop = window.scrollY;
-    const scrollHeight = document.documentElement.scrollHeight;
-    const clientHeight = document.documentElement.clientHeight;
-
-    // Carica più post quando siamo a 300px dalla fine
-    if (scrollHeight - scrollTop - clientHeight < 300) {
+  const handlePageChange = (page) => {
+    console.log('Page changed:', page);
+    if (!isLoadingMore && !isReachingEnd && page === posts.length - 2) {
+      console.log('Loading more posts...');
       loadMore();
     }
-  }, [isLoadingMore, isReachingEnd, loadMore]);
+  };
 
-  // Aggiungi l'event listener per lo scroll
-  useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [handleScroll]);
-
-  // Funzione per gestire il logout
   const handleLogout = () => {
     logout();
     navigate('/login');
-  };
+  };  
 
   if (isLoading) {
     return <div className={customStyles.errorContainer}>Loading...</div>;
@@ -86,20 +72,13 @@ const WavegramApp = ({ onOpenModal }) => {
             </div>
           </div>
 
-          {/* Logo */}
-          <img
-            src={logoHome}
-            alt="WAVEGRAM©"
-            className="wg-logo"
-          />
+         
         </div>
 
         {/* Main Content */}
-        <main className="pb-24">
-          {posts.map((post) => (
-            <Post key={post.id} post={post} />
-          ))}
-
+        <main>
+          <VerticalViewPager posts={posts} onPageChange={handlePageChange} />
+    
           {isLoadingMore && (
             <div className={customStyles.loadingContainer}>
               <div className={customStyles.loadingSpinner}></div>

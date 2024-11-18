@@ -2,26 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Heart, MessageCircle, Send } from 'lucide-react';
 import { BASE_URL } from '@/services/apiSWR';
 import { customStyles, utilities } from '@/styles/appTheme';
-import { Card, CardContent } from "@/components/ui/card"
 import {
     Carousel,
     CarouselContent,
     CarouselItem,
 } from "@/components/ui/carousel"
 
-const Post = ({ post }) => {
-    const [currentSlide, setCurrentSlide] = useState(0);
-    const [api, setApi] = useState(null);
-
-    useEffect(() => {
-        if (!api) return;
-
-        api.on('select', () => {
-            setCurrentSlide(api.selectedScrollSnap());
-        });
-    }, [api]);
-
-    // Funzione helper per ottenere l'immagine del profilo
+export const PostHeader = ({ post, currentSlide, totalSlides }) => {
     const getProfileImage = (image) => {
         if (image) {
             return `${BASE_URL}/uploads/${image}`;
@@ -29,7 +16,41 @@ const Post = ({ post }) => {
         return 'https://placehold.co/40x40?text=.';
     };
 
-    // Funzione per formattare la data
+    return (
+        <>
+            <div className="wg-divider"></div>
+            <div className={`${utilities.flexLayout.between} wg-padding-standard`}>
+                <div className={customStyles.post.header.userInfo}>
+                    <img
+                        src={getProfileImage(post.profile_image)}
+                        alt={post.username}
+                        className="wg-profile-image"
+                    />
+                    <span className="wg-txt-primary">{post.username}</span>
+                </div>
+                {totalSlides > 1 && (
+                    <div className="wg-txt-primary">
+                        {currentSlide + 1}/{totalSlides}
+                    </div>
+                )}
+            </div>
+        </>
+    );
+};
+
+export const PostContent = ({ post, onSlideChange }) => {
+    const [currentSlide, setCurrentSlide] = useState(0);
+    const [api, setApi] = useState(null);
+
+    useEffect(() => {
+        if (!api) return;
+        api.on('select', () => {
+            const newSlide = api.selectedScrollSnap();
+            setCurrentSlide(newSlide);
+            onSlideChange(newSlide);
+        });
+    }, [api, onSlideChange]);
+
     const formatDate = (timestamp) => {
         const date = new Date(timestamp);
         const now = new Date();
@@ -46,19 +67,7 @@ const Post = ({ post }) => {
     };
 
     return (
-        <article className={customStyles.post.container}>
-            <div className={customStyles.post.divider}></div>
-
-            <div className={`${utilities.flexLayout.between} wg-padding-standard`}>
-                <div className={customStyles.post.header.userInfo}>
-                    <img
-                        src={getProfileImage(post.profile_image)}
-                        alt={post.username}
-                        className="wg-profile-image"
-                    />
-                    <span className="wg-txt-primary">{post.username}</span>
-                </div>
-            </div>
+        <>
             <Carousel className="w-xl" setApi={setApi}>
                 <CarouselContent>
                     {post.images?.map((image, index) => (
@@ -109,6 +118,24 @@ const Post = ({ post }) => {
                     </p>
                 </div>
             </div>
+        </>
+    );
+};
+
+const Post = ({ post }) => {
+    const [currentSlide, setCurrentSlide] = useState(0);
+    
+    return (
+        <article className={customStyles.post.container}>
+            <PostHeader 
+                post={post} 
+                currentSlide={currentSlide} 
+                totalSlides={post.images?.length || 0} 
+            />
+            <PostContent 
+                post={post} 
+                onSlideChange={setCurrentSlide}
+            />
         </article>
     );
 };
