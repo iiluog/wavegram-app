@@ -3,45 +3,48 @@ import logoHome from '@/assets/logo-home.png';
 import Post from '../Post';
 
 const Page = ({ post, index }) => (
-    <div
-      className='sticky top-14 bg-background'
-      id={`header${index}`}
-      style={{ zIndex: index }}
-    >
-      <div className='h-screen'>
-        <Post post={post} />
-      </div>
+  <div
+    className='sticky top-14 h-screen bg-background'
+    id={`header${index}`}
+    data-page-index={index}
+  >
+    <div className='h-screen'>
+      <Post post={post} />
     </div>
+  </div>
 );
 
-const VerticalViewPager = ({ posts = [], onPageChange }) => {
+const VerticalViewPager = ({ posts = [] }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const containerRef = useRef(null);
 
-  useEffect(() => {
-    // Notify parent component when currentPage changes
-    onPageChange?.(currentPage);
-  }, [currentPage]);
 
   if (!posts.length) return null;
 
   return (
-    <div className="flex flex-row items-center justify-center" id='container-wrapper'>
       <div
         ref={containerRef}
-        className="relative h-screen w-full overflow-y-scroll"
+        className="absolute top-0 h-dvh w-full pb-0 overflow-y-scroll"
         id="container"
       >
-        
-        {posts.map((page, index) => (
+        <div
+          className='h-dvh bg-background flex items-end justify-center'
+          id={`header-logo`}
+        >
+            <img
+              src={logoHome}
+              alt="WAVEGRAM©"
+              className="wg-logo"
+            />
+        </div>
+        {posts.map((post, index) => (
           <Page
             key={index}
-            post={page}
+            post={post}
             index={index + 1}
           />
         ))}
       </div>
-    </div>
   );
 };
 

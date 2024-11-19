@@ -19,7 +19,7 @@ export const customStyles = {
   formContainer: `${utilities.container.fullScreen} ${utilities.flexLayout.center} ${utilities.flexLayout.column} wg-padding-standard`,
   // Headers
   header: {
-    base: `sticky top-0 bg-background z-header h-14 px-4 py-3`,
+    base: `sticky top-0 w-full bg-background z-header h-14 px-4 py-3`,
   },
   // Post styles
   post: {
@@ -59,7 +59,7 @@ export const customStyles = {
   },
 
   // Loading states
-  loadingSpinner: `inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-textPrimary`,
+  loadingSpinner: `inline-block animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary`,
   loadingContainer: "text-center wg-padding-standard",
 
   // Error states

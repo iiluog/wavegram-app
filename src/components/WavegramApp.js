@@ -1,10 +1,11 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import { postsApi } from '../services/apiSWR';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import useUserStore from '../stores/userStore';
 import { customStyles, utilities } from '../styles/appTheme';
 import VerticalViewPager from './ui/PostViewPager';
+import Header from './Header';
 
 const WavegramApp = ({ onOpenModal }) => {
   const { logout } = useAuth();
@@ -19,18 +20,33 @@ const WavegramApp = ({ onOpenModal }) => {
     error: isError
   } = postsApi.useGetAll();
 
-  const handlePageChange = (page) => {
-    console.log('Page changed:', page);
-    if (!isLoadingMore && !isReachingEnd && page === posts.length - 2) {
-      console.log('Loading more posts...');
-      loadMore();
+  const observerTarget = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !isLoadingMore && !isReachingEnd) {
+          loadMore();
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    if (observerTarget.current) {
+      observer.observe(observerTarget.current);
     }
-  };
+
+    return () => {
+      if (observerTarget.current) {
+        observer.unobserve(observerTarget.current);
+      }
+    };
+  }, [isLoadingMore, isReachingEnd, loadMore]);
 
   const handleLogout = () => {
     logout();
     navigate('/login');
-  };  
+  };
 
   if (isLoading) {
     return <div className={customStyles.errorContainer}>Loading...</div>;
@@ -41,50 +57,20 @@ const WavegramApp = ({ onOpenModal }) => {
   }
 
   return (
-    <div className={customStyles.pageContainer}>
-      <div className={utilities.container.maxWidth}>
-        {/* Header */}
-        <div className={customStyles.header.base}>
-          <div className={utilities.flexLayout.between}>
-            <span className="wg-txt-primary">
-              {new Date().toLocaleDateString('en-GB', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric'
-              }).replace(/\//g, '.')}
-            </span>
-            <div className={utilities.flexLayout.center}>
-              {currentUser?.profile_image && (
-                <img
-                  src={getProfileImageUrl(currentUser.profile_image)}
-                  alt={currentUser.username}
-                  className="wg-profile-image"
-                  onClick={handleLogout}
-                  style={{ cursor: 'pointer' }}
-                />
-              )}
-              <span
-                className="text-3xl ml-2 font-bold text-textPrimary cursor-pointer hover:opacity-80"
-                onClick={onOpenModal}
-              >
-                +
-              </span>
-            </div>
-          </div>
+    <div className={utilities.container.maxWidth}>
+        <Header onOpenModal={onOpenModal} onLogout={handleLogout} />
+      <div className={customStyles.pageContainer}>
 
-         
-        </div>
+        <VerticalViewPager posts={posts} />
 
-        {/* Main Content */}
-        <main>
-          <VerticalViewPager posts={posts} onPageChange={handlePageChange} />
-    
+        {/* Observer target and loading spinner */}
+        <div ref={observerTarget} style={{ height: '20px' }}>
           {isLoadingMore && (
             <div className={customStyles.loadingContainer}>
               <div className={customStyles.loadingSpinner}></div>
             </div>
           )}
-        </main>
+        </div>
       </div>
     </div>
   );
