@@ -72,17 +72,18 @@ export const PostContent = ({ post, onSlideChange }) => {
                 <CarouselContent>
                     {post.images?.map((image, index) => (
                         <CarouselItem key={index}>
-                            <div className="w-screen aspect-square">
+                            <div className="w-screen px-4 aspect-square">
                                 <img
                                     src={`${BASE_URL}/uploads/${image}`}
                                     alt=""
-                                    className="w-screen aspect-square object-cover"
+                                    className="h-full w-full wg-rounded object-cover"
                                 />
                             </div>
                         </CarouselItem>
                     ))}
                 </CarouselContent>
-                {post.images?.length > 1 && (
+                { // dos are disabled at the moment
+                false && post.images?.length > 1 && (
                     <>
                         <div className={customStyles.post.image.dots}>
                             {post.images.map((_, index) => (

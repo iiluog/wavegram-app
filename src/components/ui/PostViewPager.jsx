@@ -24,7 +24,7 @@ const VerticalViewPager = ({ posts = [] }) => {
   return (
       <div
         ref={containerRef}
-        className="absolute top-0 h-dvh w-full pb-0 overflow-y-scroll"
+        className="absolute top-14 h-dvh w-full pb-0 overflow-y-scroll"
         id="container"
       >
         <div
