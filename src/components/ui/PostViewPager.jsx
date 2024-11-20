@@ -34,7 +34,7 @@ const PostViewPager = ({ posts = [] }) => {
         <img
           src={logoHome}
           alt="WAVEGRAM©"
-          className="wg-logo"
+          className="wg-logo mb-14"
         />
       </div>
       {posts.map((post, index) => (
