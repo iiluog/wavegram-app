@@ -4,7 +4,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import useUserStore from '../stores/userStore';
 import { customStyles, utilities } from '../styles/appTheme';
-import VerticalViewPager from './ui/PostViewPager';
+import PostViewPager from './ui/PostViewPager';
 import Header from './Header';
 
 const WavegramApp = ({ onOpenModal }) => {
@@ -58,10 +58,10 @@ const WavegramApp = ({ onOpenModal }) => {
 
   return (
     <div className={utilities.container.maxWidth}>
-        <Header onOpenModal={onOpenModal} onLogout={handleLogout} />
+      <Header onOpenModal={onOpenModal} onLogout={handleLogout} />
       <div className={customStyles.pageContainer}>
 
-        <VerticalViewPager posts={posts} />
+        <PostViewPager posts={posts} />
 
         {/* Observer target and loading spinner */}
         <div ref={observerTarget} style={{ height: '20px' }}>

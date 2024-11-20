@@ -59,7 +59,9 @@ module.exports = {
       },
       zIndex: {
         'header': '50',
-        'modal': '100',
+        'modal': '200',
+        'comments': '150',
+        'overlay': '100',
       }
     },
   },

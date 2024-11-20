@@ -4,7 +4,7 @@ import Post from '../Post';
 
 const Page = ({ post, index }) => (
   <div
-    className='sticky top-14 h-screen bg-background'
+    className='sticky top-0 h-screen bg-background'
     id={`header${index}`}
     data-page-index={index}
   >
@@ -14,7 +14,7 @@ const Page = ({ post, index }) => (
   </div>
 );
 
-const VerticalViewPager = ({ posts = [] }) => {
+const PostViewPager = ({ posts = [] }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const containerRef = useRef(null);
 
@@ -22,30 +22,30 @@ const VerticalViewPager = ({ posts = [] }) => {
   if (!posts.length) return null;
 
   return (
+    <div
+      ref={containerRef}
+      className="absolute top-14 h-dvh w-full pb-0 overflow-y-scroll"
+      id="container"
+    >
       <div
-        ref={containerRef}
-        className="absolute top-14 h-dvh w-full pb-0 overflow-y-scroll"
-        id="container"
+        className='h-dvh bg-background flex items-end justify-center'
+        id={`header-logo`}
       >
-        <div
-          className='h-dvh bg-background flex items-end justify-center'
-          id={`header-logo`}
-        >
-            <img
-              src={logoHome}
-              alt="WAVEGRAM©"
-              className="wg-logo"
-            />
-        </div>
-        {posts.map((post, index) => (
-          <Page
-            key={index}
-            post={post}
-            index={index + 1}
-          />
-        ))}
+        <img
+          src={logoHome}
+          alt="WAVEGRAM©"
+          className="wg-logo"
+        />
       </div>
+      {posts.map((post, index) => (
+        <Page
+          key={index}
+          post={post}
+          index={index + 1}
+        />
+      ))}
+    </div>
   );
 };
 
-export default VerticalViewPager;
+export default PostViewPager;

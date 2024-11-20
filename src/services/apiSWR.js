@@ -196,21 +196,20 @@ export const usersApi = {
 
 // Comments API con SWR
 export const commentsApi = {
-    useGetAll: () => {
-        const { data, error, isLoading } = useSWR('/comments', fetcher);
+    useGetAll: (postId) => {
+        const { data, error, isLoading } = useSWR(`/comments/${postId}`, fetcher);
         return {
             comments: data,
             isLoading,
             isError: error
         };
     },
+    getAll: async (postId) => {
+        const response = await api.get(`/comments/${postId}`);
+        return response.data;
+    },
     create: async (data) => {
         const response = await api.post('/comments', data);
-        mutate('/comments');
-        return response;
-    },
-    update: async (id, data) => {
-        const response = await api.put(`/comments/${id}`, data);
         mutate('/comments');
         return response;
     },
