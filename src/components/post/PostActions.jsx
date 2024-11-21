@@ -4,13 +4,36 @@ import { customStyles, utilities } from '@/styles/appTheme';
 import { formatDate } from '@/utils/dateUtils';
 import { Drawer, DrawerTrigger, DrawerPortal, DrawerOverlay } from "@/components/ui/drawer";
 import CommentsDrawer from '../comments/CommentsDrawer';
-import { commentsApi } from '@/services/apiSWR';
+import { commentsApi, likesApi } from '@/services/apiSWR';
 
 const PostActions = ({ post }) => {
   const [comments, setComments] = useState([]);
   const [isLoadingComments, setIsLoadingComments] = useState(false);
-  const [commentsCount, setCommentsCount] = useState(0);
+  const [commentsCount, setCommentsCount] = useState(post.comments_count || 0);
+  const [likesCount, setLikesCount] = useState(post.likes_count || 0);
   const [newComment, setNewComment] = useState('');
+  const [isLiked, setIsLiked] = useState(!!post.is_liked);
+  const [isProcessingLike, setIsProcessingLike] = useState(false);
+
+  const handleLikeClick = async () => {
+    if (isProcessingLike) return;
+    
+    setIsProcessingLike(true);
+    try {
+      if (isLiked) {
+        await likesApi.delete(post.id);
+        setLikesCount(prev => Math.max(0, prev - 1));
+      } else {
+        await likesApi.create({ post_id: post.id });
+        setLikesCount(prev => prev + 1);
+      }
+      setIsLiked(!isLiked);
+    } catch (error) {
+      console.error('Failed to process like:', error);
+    } finally {
+      setIsProcessingLike(false);
+    }
+  };
 
   async function handleCommentsClick() {
     setIsLoadingComments(true);
@@ -50,8 +73,12 @@ const PostActions = ({ post }) => {
     <div className={customStyles.post.actions.wrapper}>
       <div className={utilities.flexLayout.between}>
         <div className={customStyles.post.actions.buttons}>
-          <button className={customStyles.post.actions.button}>
-            <Heart size={24} />
+          <button 
+            className={`${customStyles.post.actions.button} ${isLiked ? 'text-red-500' : ''}`}
+            onClick={handleLikeClick}
+            disabled={isProcessingLike}
+          >
+            <Heart size={24} fill={isLiked ? "currentColor" : "none"} />
           </button>
           
           <Drawer>

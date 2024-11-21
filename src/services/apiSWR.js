@@ -230,13 +230,17 @@ export const likesApi = {
             isError: error
         };
     },
+    checkLike: async (postId) => {
+        const response = await api.get(`/likes/${postId}`);
+        return response.data;
+    },
     create: async (data) => {
         const response = await api.post('/likes', data);
         mutate('/likes');
         return response;
     },
-    delete: async (id) => {
-        const response = await api.delete(`/likes/${id}`);
+    delete: async (postId) => {
+        const response = await api.delete(`/likes/${postId}`);
         mutate('/likes');
         return response;
     }
