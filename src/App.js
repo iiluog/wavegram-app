@@ -5,6 +5,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 import WavegramApp from './components/WavegramApp';
 import CreatePostModal from './components/CreatePostModal';
+import Profile from './components/Profile';
 
 const PrivateRoute = ({ children }) => {
   const { token } = useAuth();
@@ -30,6 +31,14 @@ function App() {
                   isOpen={isModalOpen} 
                   onClose={() => setIsModalOpen(false)} 
                 />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/profile/:username"
+            element={
+              <PrivateRoute>
+                <Profile />
               </PrivateRoute>
             }
           />

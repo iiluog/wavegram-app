@@ -14,7 +14,7 @@ const Page = ({ post, index }) => (
   </div>
 );
 
-const PostViewPager = ({ posts = [] }) => {
+const PostViewPager = ({ posts = [], onProfileClick }) => {
   const [currentPage, setCurrentPage] = useState(0);
   const containerRef = useRef(null);
 

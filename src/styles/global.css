@@ -92,3 +92,101 @@
     @apply w-full bg-primary;
   }
 }
+
+/* Profile Styles */
+.wg-profile-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 1rem;
+}
+
+.wg-profile-info {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-bottom: 1.5rem;
+}
+
+.wg-profile-details {
+  flex: 1;
+}
+
+.wg-profile-stats {
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem 0;
+  border-top: 1px solid var(--border-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.wg-stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.wg-stat-value {
+  font-size: 1.25rem;
+  font-weight: bold;
+  color: var(--text-primary);
+}
+
+.wg-stat-label {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+.wg-posts-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  padding: 2px;
+}
+
+.wg-grid-item {
+  aspect-ratio: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+.wg-grid-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.wg-grid-item:hover .wg-grid-image {
+  transform: scale(1.05);
+}
+
+.profile-image-large {
+  @apply rounded-full object-cover border-2 border-background;
+  width: 80px;
+  height: 80px;
+}
+
+.profile-stat {
+  @apply flex flex-col items-center;
+}
+
+.profile-stat-value {
+  @apply font-semibold text-primary text-base;
+}
+
+.profile-stat-label {
+  @apply text-sm text-secondary;
+}
+
+.profile-grid {
+  @apply grid grid-cols-3 gap-[2px] bg-border;
+}
+
+.profile-grid-item {
+  @apply aspect-square bg-background overflow-hidden;
+}
+
+.profile-grid-image {
+  @apply w-full h-full object-cover;
+}

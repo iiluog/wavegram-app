@@ -5,7 +5,7 @@ import PostCarousel from './post/PostCarousel';
 import PostDescription from './post/PostDescription';
 import { customStyles } from '../styles/appTheme';
 
-const Post = ({ post }) => {
+const Post = ({ post, onProfileClick }) => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [api, setApi] = useState(null);
 
@@ -15,6 +15,7 @@ const Post = ({ post }) => {
         post={post}
         currentSlide={currentSlide}
         totalSlides={post.images?.length || 0}
+        onProfileClick={onProfileClick}
       />
       <PostCarousel
         images={post.images}

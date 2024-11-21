@@ -60,7 +60,6 @@ const WavegramApp = ({ onOpenModal }) => {
     <div className={utilities.container.maxWidth}>
       <Header onOpenModal={onOpenModal} onLogout={handleLogout} />
       <div className={customStyles.pageContainer}>
-
         <PostViewPager posts={posts} />
 
         {/* Observer target and loading spinner */}

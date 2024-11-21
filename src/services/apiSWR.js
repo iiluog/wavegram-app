@@ -115,16 +115,23 @@ const fetcher = url => {
 
 // Posts API con SWR
 export const postsApi = {
-    useGetAll: (page = 1, limit = 5) => {
+    useGetAll: (options = {}) => {
         const { data, error, size, setSize, isLoading } = useSWRInfinite(
-            (pageIndex) => `${API_BASE_URL}/posts?page=${pageIndex + 1}&limit=${limit}`,
-            fetcher
+            (pageIndex) => `${API_BASE_URL}/posts?page=${pageIndex + 1}&limit=5`,
+            fetcher,
+            {
+                revalidateFirstPage: false,
+                persistSize: true,
+                revalidateOnFocus: false,
+                revalidateIfStale: false,
+                ...options
+            }
         );
 
         const posts = data ? [].concat(...data) : [];
         const isLoadingMore = isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
         const isEmpty = data?.[0]?.length === 0;
-        const isReachingEnd = isEmpty || (data && data[data.length - 1]?.length < limit);
+        const isReachingEnd = isEmpty || (data && data[data.length - 1]?.length < 5);
 
         return {
             posts,
@@ -132,7 +139,9 @@ export const postsApi = {
             isLoading: isLoading && !data,
             isLoadingMore,
             loadMore: () => setSize(size + 1),
-            isReachingEnd
+            isReachingEnd,
+            size,
+            setSize
         };
     },
     create: async (formData) => {
@@ -153,6 +162,17 @@ export const postsApi = {
         const response = await api.delete(`/posts/${id}`);
         mutate('/posts'); // Rivalidare la cache dopo l'eliminazione
         return response;
+    },
+    useGetUserPosts: (username) => {
+        const { data, error, isLoading } = useSWR(
+            username ? `/posts/user/${username}` : null,
+            fetcher
+        );
+        return {
+            posts: data,
+            isLoading,
+            isError: error
+        };
     }
 };
 
@@ -191,6 +211,17 @@ export const usersApi = {
         const response = await api.delete(`/users/${id}`);
         mutate('/users');
         return response;
+    },
+    useGetProfile: (username) => {
+        const { data, error, isLoading } = useSWR(
+            username ? `/users/profile/${username}` : null,
+            fetcher
+        );
+        return {
+            user: data?.user,
+            isLoading,
+            isError: error
+        };
     }
 };
 
