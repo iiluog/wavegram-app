@@ -1,31 +1,22 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { BASE_URL } from '../../services/apiSWR';
+import { getProfileImage } from '../../utils/imageUtils';
 
-
-const ProfileImage = ({ image, username, size = 40 }) => {
-
+const ProfileImage = ({ image, username }) => {
     const navigate = useNavigate();
-    const getProfileImage = (image) => {
-        if (image) {
-      return `${BASE_URL}/uploads/${image}`;
-    }
-    return `https://placehold.co/${size}x${size}?text=.`;
-  };
 
+    const handleProfileClick = () => {
+        navigate(`/profile/${username}`);
+    };
 
-  const handleProfileClick = () => {
-    navigate(`/profile/${username}`);
-};
-
-  return (
-    <img
-      src={getProfileImage(image)}
-      alt={username}
-      onClick={handleProfileClick}
-      className="wg-profile-image"
-    />
-  );
+    return (
+        <img
+            src={getProfileImage(image, 40)}
+            alt={username}
+            onClick={handleProfileClick}
+            className="wg-profile-image"
+        />
+    );
 };
 
 export default ProfileImage; 

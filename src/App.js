@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { 
+  createBrowserRouter, 
+  RouterProvider, 
+  Navigate, 
+  ScrollRestoration,
+  createRoutesFromElements,
+  Route
+} from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Login from './components/Login';
 import Register from './components/Register';
@@ -9,42 +16,70 @@ import Profile from './components/Profile';
 
 const PrivateRoute = ({ children }) => {
   const { token } = useAuth();
-  console.log('Token nel PrivateRoute:', token);
   return token ? children : <Navigate to="/login" />;
 };
+
+// Componente wrapper che include ScrollRestoration
+const AppWrapper = ({ children }) => (
+  <>
+    <ScrollRestoration />
+    {children}
+  </>
+);
 
 function App() {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  return (
-    <Router>
-      <AuthProvider>
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route
-            path="/"
-            element={
-              <PrivateRoute>
+  const router = createBrowserRouter(
+    createRoutesFromElements(
+      <>
+        <Route
+          path="/login"
+          element={<AppWrapper><Login /></AppWrapper>}
+        />
+        <Route
+          path="/register"
+          element={<AppWrapper><Register /></AppWrapper>}
+        />
+        <Route
+          path="/"
+          element={
+            <PrivateRoute>
+              <AppWrapper>
                 <WavegramApp onOpenModal={() => setIsModalOpen(true)} />
                 <CreatePostModal 
                   isOpen={isModalOpen} 
                   onClose={() => setIsModalOpen(false)} 
                 />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/profile/:username"
-            element={
-              <PrivateRoute>
+              </AppWrapper>
+            </PrivateRoute>
+          }
+          preventScrollReset={true}
+        />
+        <Route
+          path="/profile/:username"
+          element={
+            <PrivateRoute>
+              <AppWrapper>
                 <Profile />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
-      </AuthProvider>
-    </Router>
+              </AppWrapper>
+            </PrivateRoute>
+          }
+          preventScrollReset={true}
+        />
+      </>
+    ),
+    {
+      future: {
+        v7_startTransition: true
+      }
+    }
+  );
+
+  return (
+    <AuthProvider>
+      <RouterProvider router={router} />
+    </AuthProvider>
   );
 }
 

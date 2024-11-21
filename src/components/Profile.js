@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
 import { usersApi, postsApi } from '../services/apiSWR';
-import ProfileImage from './ui/ProfileImage';
+import { getProfileImage } from '../utils/imageUtils';
 import { customStyles, utilities } from '../styles/appTheme';
 import { BASE_URL } from '../services/apiSWR';
 import Header from './Header';
@@ -43,36 +43,16 @@ const Profile = () => {
         {/* Profile Info */}
         <div className="flex flex-col px-6 pb-6">
           {/* Profile Image and Stats */}
-          <div className="flex items-start gap-8">
-            <div className="flex-shrink-0">
-              <ProfileImage 
-                image={user.profile_image} 
-                username={user.username} 
-                size={80} 
-              />
-            </div>
-            <div className="flex-1 flex justify-around">
-              <div className="flex flex-col items-center">
-                <span className="font-semibold text-primary">{posts?.length || 0}</span>
-                <span className="text-sm text-secondary">Posts</span>
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="font-semibold text-primary">{user.followers_count || 0}</span>
-                <span className="text-sm text-secondary">Followers</span>
-              </div>
-              <div className="flex flex-col items-center">
-                <span className="font-semibold text-primary">{user.following_count || 0}</span>
-                <span className="text-sm text-secondary">Following</span>
-              </div>
-            </div>
+          <div className="flex justify-center">
+            <img
+              src={getProfileImage(user.profile_image)}
+              alt={user.username}
+              className="w-32 h-24 rounded-full object-cover"
+            />
           </div>
 
           {/* Bio Section */}
-          <div className="mt-4">
-            <h2 className="font-medium text-primary">{user.username}</h2>
-            {user.location && (
-              <span className="text-sm text-secondary block">{user.location}</span>
-            )}
+          <div className="flex justify-center">
             {user.bio && (
               <p className="text-sm text-primary mt-2">{user.bio}</p>
             )}
@@ -80,15 +60,14 @@ const Profile = () => {
         </div>
 
         {/* Posts Grid */}
-        <div className="flex-1 bg-background">
-          <div className="wg-divider"></div>
-          <div className="grid grid-cols-2 gap-[2px]">
+        <div className="flex-1 bg-background px-4">
+          <div className="grid grid-cols-2 gap-2">
             {posts.posts?.map((post) => (
               <div key={post.id} className="aspect-square">
                 <img 
                   src={`${BASE_URL}/uploads/${post.images[0]}`}
                   alt={`Post by ${user.username}`}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover wg-rounded"
                 />
               </div>
             ))}
