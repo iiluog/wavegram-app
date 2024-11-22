@@ -164,14 +164,29 @@ export const postsApi = {
         return response;
     },
     useGetUserPosts: (username) => {
-        const { data, error, isLoading } = useSWR(
-            username ? `/posts/user/${username}` : null,
-            fetcher
+        const { data, error, size, setSize, isLoading } = useSWRInfinite(
+            (pageIndex) => username ? `/posts/user/${username}?page=${pageIndex + 1}&limit=20` : null,
+            fetcher,
+            {
+                revalidateFirstPage: false,
+                persistSize: true,
+                revalidateOnFocus: false,
+                revalidateIfStale: false
+            }
         );
+
+        const posts = data ? [].concat(...data.map(page => page.posts)) : [];
+        const isLoadingMore = isLoading || (size > 0 && data && typeof data[size - 1]?.posts === "undefined");
+        const isEmpty = data?.[0]?.posts?.length === 0;
+        const isReachingEnd = isEmpty || (data && data[data.length - 1]?.posts?.length < 20);
+
         return {
-            posts: data,
-            isLoading,
-            isError: error
+            posts,
+            error,
+            isLoading: isLoading && !data,
+            isLoadingMore,
+            loadMore: () => setSize(size + 1),
+            isReachingEnd
         };
     }
 };
