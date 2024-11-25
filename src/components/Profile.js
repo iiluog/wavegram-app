@@ -33,7 +33,6 @@ const Profile = () => {
     return (
         <div className={utilities.container.maxWidth}>
             <Header />
-            <div className="wg-divider"></div>
             <div className="flex flex-col h-[calc(100vh-64px)] bg-background">
                 <div className="sticky top-0 bg-background z-10">
                     <div className="flex items-center justify-between p-4">
@@ -102,18 +101,33 @@ const Profile = () => {
                                         <div key={dateKey} className="mb-12">
                                             <div className="grid grid-cols-[80px_1fr] items-start ">
                                                 <div className="text-primary flex flex-col items-center mr-4">
-                                                    <div className="text-4xl font-bold leading-none">{day}</div>
                                                     <div className="text-sm font-medium">{month}</div>
+                                                    <div className="text-4xl font-medium leading-none">{day}</div>
                                                     <div className="text-sm font-medium">{year}</div>
                                                 </div>
                                                 <div className="grid grid-cols-3 gap-2">
                                                     {datePosts.map((post) => (
-                                                        <div key={post.id} className="aspect-square">
+                                                        <div key={post.id} className="aspect-square relative">
                                                             <img
                                                                 src={`${BASE_URL}/uploads/${post.images[0]}`}
                                                                 alt={`Post by ${user.username}`}
                                                                 className="w-full h-full object-cover wg-rounded"
                                                             />
+                                                            {post.images.length > 1 && (
+                                                                <div className="absolute top-[0px] right-[0px]">
+                                                                    <div className="relative">
+                                                                        <div className="w-0 h-0 
+                                                                            border-t-[28px] border-t-primary
+                                                                            border-l-[28px] border-l-transparent
+                                                                            rotate-[0deg]" 
+                                                                        />
+                                                                        <span className="absolute top-0 right-1 -translate-x-[0px] -translate-y-[0px]
+                                                                            text-white text-xs font-medium">
+                                                                            {post.images.length}
+                                                                        </span>
+                                                                    </div>
+                                                                </div>
+                                                            )}
                                                         </div>
                                                     ))}
                                                 </div>
