@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Heart, MessageCircle, Send } from 'lucide-react';
+import { Heart, MessageCircle, Send, UserPlusIcon } from 'lucide-react';
 import { customStyles, utilities } from '@/styles/appTheme';
 import { formatDate } from '@/utils/dateUtils';
 import { Drawer, DrawerTrigger, DrawerPortal, DrawerOverlay } from "@/components/ui/drawer";

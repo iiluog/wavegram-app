@@ -117,7 +117,7 @@ const fetcher = url => {
 export const postsApi = {
     useGetAll: (options = {}) => {
         const { data, error, size, setSize, isLoading } = useSWRInfinite(
-            (pageIndex) => `${API_BASE_URL}/posts?page=${pageIndex + 1}&limit=5`,
+            (pageIndex) => `${API_BASE_URL}/posts?page=${pageIndex + 1}&limit=5&include_tags=true`,
             fetcher,
             {
                 revalidateFirstPage: false,
@@ -387,4 +387,39 @@ export const authApi = {
             throw error;
         }
     },
+};
+
+// Tags API con SWR
+export const tagsApi = {
+    useGetPostTags: (postId) => {
+        const { data, error, isLoading } = useSWR(
+            postId ? `/tags/${postId}` : null,
+            fetcher
+        );
+        return {
+            tags: data,
+            isLoading,
+            isError: error
+        };
+    },
+
+    addTags: async (postId, taggedUsers) => {
+        const response = await api.post(`/tags/${postId}`, {
+            tagged_users: taggedUsers
+        });
+        mutate(`/tags/${postId}`);
+        return response;
+    },
+
+    removeAllTags: async (postId) => {
+        const response = await api.delete(`/tags/${postId}`);
+        mutate(`/tags/${postId}`);
+        return response;
+    },
+
+    removeTag: async (postId, taggedUserId) => {
+        const response = await api.delete(`/tags/${postId}/${taggedUserId}`);
+        mutate(`/tags/${postId}`);
+        return response;
+    }
 }; 

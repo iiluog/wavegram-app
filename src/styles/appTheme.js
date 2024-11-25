@@ -41,6 +41,14 @@ export const customStyles = {
       buttons: `flex gap-2`,
       button: "w-6 h-6",
       info: `flex flex-col items-end justify-center wg-txt-info`
+    },
+    tags: {
+      badge: "flex items-center gap-1.5 pl-1 pr-2 py-1 bg-primary",
+      badgeText: "text-background uppercase text-m",
+      badgeImage: "wg-profile-image h-5 w-5",
+      badgeAdd: "flex items-center gap-1.5 px-3 py-1 border border-primary cursor-pointer",
+      badgeAddText: "text-primary text-m",
+      badgeAddIcon: "w-4 h-4 text-primary"
     }
   },
 
