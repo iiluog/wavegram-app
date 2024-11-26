@@ -1,16 +1,10 @@
-import React, { useEffect, useCallback, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import { postsApi } from '../services/apiSWR';
-import { useAuth } from '../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import useUserStore from '../stores/userStore';
 import { customStyles, utilities } from '../styles/appTheme';
 import PostViewPager from './ui/PostViewPager';
 import Header from './Header';
 
 const WavegramApp = ({ onOpenModal }) => {
-  const { logout } = useAuth();
-  const navigate = useNavigate();
-  const { currentUser, getProfileImageUrl } = useUserStore();
   const {
     posts,
     isLoading,
@@ -43,11 +37,6 @@ const WavegramApp = ({ onOpenModal }) => {
     };
   }, [isLoadingMore, isReachingEnd, loadMore]);
 
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
-
   if (isLoading) {
     return <div className={customStyles.errorContainer}>Loading...</div>;
   }
@@ -58,7 +47,7 @@ const WavegramApp = ({ onOpenModal }) => {
 
   return (
     <div className={utilities.container.maxWidth}>
-      <Header onOpenModal={onOpenModal} onLogout={handleLogout} />
+      <Header onOpenModal={onOpenModal} />
       <div className={customStyles.pageContainer}>
         <PostViewPager posts={posts} />
 

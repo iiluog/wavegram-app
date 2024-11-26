@@ -5,10 +5,12 @@ import { getProfileImage } from '../utils/imageUtils';
 import { customStyles, utilities } from '../styles/appTheme';
 import Header from './Header';
 import { CircleChevronLeft } from 'lucide-react';
+import useUserStore from '../stores/userStore';
 
 const Profile = () => {
     const { username } = useParams();
     const navigate = useNavigate();
+    const { currentUser } = useUserStore();
     const { user, isLoading, isError } = usersApi.useGetProfile(username);
     const { 
         posts, 
@@ -17,6 +19,9 @@ const Profile = () => {
         loadMore,
         isReachingEnd 
     } = postsApi.useGetUserPosts(username);
+
+    // Verifica se il profilo corrisponde all'utente loggato
+    const isOwnPage = currentUser?.username === username;
 
     const handleBack = () => {
         navigate('/');
@@ -32,7 +37,7 @@ const Profile = () => {
 
     return (
         <div className={utilities.container.maxWidth}>
-            <Header />
+            <Header isOwnPage={isOwnPage} />
             <div className="flex flex-col h-[calc(100vh-64px)] bg-background">
                 <div className="sticky top-0 bg-background z-10">
                     <div className="flex items-center justify-between p-4">

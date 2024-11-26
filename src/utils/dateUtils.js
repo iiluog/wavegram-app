@@ -8,7 +8,7 @@ export const formatDate = (timestamp) => {
   const days = Math.floor(hours / 24);
 
   if (days > 6) return formatDateFull(timestamp);
-  if (days > 0) return `${days} giorni fa`;
+  // if (days > 0) return `${days} giorni fa`;
   if (hours > 0) return `${hours} ore fa`;
   if (minutes > 0) return `${minutes} minuti fa`;
   return 'pochi secondi fa';

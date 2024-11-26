@@ -1,10 +1,16 @@
 import React from 'react';
 import { customStyles, utilities } from '../styles/appTheme';
 import useUserStore from '../stores/userStore';
+import { useAuth } from '../contexts/AuthContext';
+import { useNavigate } from 'react-router-dom';
 import ProfileImage from './ui/ProfileImage';
+import { LogOutIcon } from 'lucide-react';
 
-const Header = ({ onOpenModal }) => {
+const Header = ({ onOpenModal, isOwnPage }) => {
     const { currentUser } = useUserStore();
+    const { logout: authLogout } = useAuth();
+    const { logout: storeLogout } = useUserStore();
+    const navigate = useNavigate();
 
     const getFormattedTime = () => {
         const now = new Date();
@@ -14,6 +20,12 @@ const Header = ({ onOpenModal }) => {
         const formattedHours = hours % 12 || 12;
         const formattedMinutes = minutes.toString().padStart(2, '0');
         return `${formattedHours}:${formattedMinutes}${ampm}`;
+    };
+
+    const handleLogout = () => {
+        authLogout(); // Logout dal context di autenticazione
+        storeLogout(); // Logout dallo store
+        navigate('/login'); // Usa navigate invece di window.location
     };
 
     return (
@@ -27,16 +39,28 @@ const Header = ({ onOpenModal }) => {
                     }).replace(/\//g, '.')} - {getFormattedTime()}
                 </span>
                 <div className={utilities.flexLayout.center}>
-                    <ProfileImage
-                        image={currentUser?.profile_image}
-                        username={currentUser?.username}
-                    />
-                    <span
-                        className="text-3xl ml-2 font-bold text-textPrimary cursor-pointer hover:opacity-80"
-                        onClick={onOpenModal}
-                    >
-                        +
-                    </span>
+                    {isOwnPage ? (
+                        <button
+                            onClick={handleLogout}
+                            className="text-textPrimary hover:opacity-80 font-medium"
+                        >
+                            <LogOutIcon />
+                        </button>
+                    ) : (
+                        <>
+                            <ProfileImage
+                                image={currentUser?.profile_image}
+                                username={currentUser?.username}
+                            />
+
+                            <span
+                                className="text-3xl ml-2 font-bold text-textPrimary cursor-pointer hover:opacity-80"
+                                onClick={onOpenModal}
+                            >
+                                +
+                            </span>
+                        </>
+                    )}
                 </div>
             </div>
         </div>
