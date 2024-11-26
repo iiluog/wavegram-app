@@ -237,7 +237,12 @@ export const usersApi = {
             isLoading,
             isError: error
         };
-    }
+    },
+    searchUsers: async (query) => {
+        if (!query || query.length < 2) return [];
+        const response = await api.get(`/users/search?q=${query}`);
+        return response.data;
+    },
 };
 
 // Comments API con SWR
@@ -403,12 +408,12 @@ export const tagsApi = {
         };
     },
 
-    addTags: async (postId, taggedUsers) => {
+    addTag: async (postId, userId) => {
         const response = await api.post(`/tags/${postId}`, {
-            tagged_users: taggedUsers
+            tagged_users: [userId]
         });
         mutate(`/tags/${postId}`);
-        return response;
+        return response.data;
     },
 
     removeAllTags: async (postId) => {
@@ -421,5 +426,5 @@ export const tagsApi = {
         const response = await api.delete(`/tags/${postId}/${taggedUserId}`);
         mutate(`/tags/${postId}`);
         return response;
-    }
+    },
 }; 

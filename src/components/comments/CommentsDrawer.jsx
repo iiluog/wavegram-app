@@ -20,7 +20,7 @@ const CommentsDrawer = forwardRef(({
   return (
     <DrawerContent ref={ref} className="z-comments w-full max-h-[70vh] bg-background wg-rounded fixed bottom-0 left-0 right-0 outline-none">
       <DrawerHeader className="p-0">
-        <DrawerTitle className="px-4 pb-2 wg-txt-primary top-0 w-full flex justify-between items-center">
+        <DrawerTitle className="px-4 wg-txt-primary top-0 w-full flex justify-between items-center">
           <span className="wg-txt-primary">COMMENTI</span>
           <span className="wg-txt-primary">{commentsCount}</span>
         </DrawerTitle>
@@ -36,7 +36,7 @@ const CommentsDrawer = forwardRef(({
         </div>
       </DrawerDescription>
       
-      <DrawerFooter className="border-t">
+      <DrawerFooter>
         <CommentInput 
           value={newComment}
           onChange={onCommentChange}

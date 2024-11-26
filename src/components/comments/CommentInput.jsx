@@ -2,7 +2,7 @@ import React from 'react';
 
 const CommentInput = ({ value, onChange, onSubmit }) => {
   return (
-    <div className="flex items-center gap-2 m-4 px-4 border-2 border-secondary rounded-full">
+    <div className="flex items-center px-4 border-2 border-secondary rounded-full">
       <input 
         type="text" 
         placeholder="Scrivi un commento..." 

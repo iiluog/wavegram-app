@@ -6,17 +6,31 @@ import PostDescription from './post/PostDescription';
 import PostTags from './post/PostTags';
 import { customStyles } from '../styles/appTheme';
 import useUserStore from '@/stores/userStore';
+import { tagsApi } from '@/services/apiSWR';
+import { useNavigate } from 'react-router-dom';
 
-const Post = ({ post, onProfileClick }) => {
+const Post = ({ post }) => {
+  const navigate = useNavigate();
   const [currentSlide, setCurrentSlide] = useState(0);
   const [api, setApi] = useState(null);
+  const [tags, setTags] = useState(post.tags ?? []);
   const currentUser = useUserStore((state) => state.currentUser);
   
   const isOwnPost = post.user_id === currentUser?.id;
 
-  const handleAddTag = () => {
-    // Implementare la logica per aggiungere un tag
-    console.log('Add tag clicked');
+  const handleProfileClick = (username) => {
+    navigate(`/profile/${username}`);
+  };
+
+  const handleAddTag = async (userId) => {
+    try {
+      const response = await tagsApi.addTag(post.id, userId);
+      if (response.tags) {
+        setTags(response.tags);
+      }
+    } catch (error) {
+      console.error('Failed to add tag:', error);
+    }
   };
 
   return (
@@ -25,7 +39,7 @@ const Post = ({ post, onProfileClick }) => {
         post={post}
         currentSlide={currentSlide}
         totalSlides={post.images?.length || 0}
-        onProfileClick={onProfileClick}
+        onProfileClick={handleProfileClick}
       />
       <PostCarousel
         images={post.images}
@@ -35,10 +49,11 @@ const Post = ({ post, onProfileClick }) => {
       />
       <PostActions post={post} />
       <PostTags 
-        tags={post.tags ?? []} 
+        tags={tags}
         isOwnPost={isOwnPost}
-        onProfileClick={onProfileClick}
+        onProfileClick={(username) => handleProfileClick(username)}
         onAddTag={handleAddTag}
+        postId={post.id}
       />
       <PostDescription description={post.description} />
     </article>

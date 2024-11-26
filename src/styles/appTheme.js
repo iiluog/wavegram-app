@@ -43,7 +43,7 @@ export const customStyles = {
       info: `flex flex-col items-end justify-center wg-txt-info`
     },
     tags: {
-      badge: "flex items-center gap-1.5 pl-1 pr-2 py-1 bg-primary",
+      badge: "flex items-center mx-0 border border-primary gap-1.5 pl-1 pr-2 py-1 bg-primary",
       badgeText: "text-background uppercase text-m",
       badgeImage: "wg-profile-image h-5 w-5",
       badgeAdd: "flex items-center gap-1.5 px-3 py-1 border border-primary cursor-pointer",
