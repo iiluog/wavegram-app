@@ -10,6 +10,9 @@ const useUserStore = create((set) => ({
     // Resetta lo stato dell'utente
     set({ currentUser: null });
   },
+  updateUser: (updatedUser) => set((state) => ({
+    currentUser: { ...state.currentUser, ...updatedUser }
+  })),
 }));
 
 export default useUserStore;

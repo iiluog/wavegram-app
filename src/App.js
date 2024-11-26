@@ -13,6 +13,7 @@ import Register from './components/Register';
 import WavegramApp from './components/WavegramApp';
 import CreatePostModal from './components/CreatePostModal';
 import Profile from './components/Profile';
+import EditProfile from './components/EditProfile';
 
 const PrivateRoute = ({ children }) => {
   const { token } = useAuth();
@@ -66,6 +67,14 @@ function App() {
             </PrivateRoute>
           }
           preventScrollReset={true}
+        />
+        <Route
+          path="/edit-profile"
+          element={
+            <PrivateRoute>
+              <EditProfile />
+            </PrivateRoute>
+          }
         />
       </>
     ),

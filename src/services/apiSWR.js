@@ -217,10 +217,15 @@ export const usersApi = {
             isError: error
         };
     },
-    update: async (id, data) => {
-        const response = await api.put(`/users/${id}`, data);
-        mutate('/users');
-        return response;
+    update: async (data) => {
+        const response = await api.post('/users/profile/update', data, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        // Invalidiamo la cache dell'utente corrente
+        mutate('/users/me');
+        return response.data;
     },
     delete: async (id) => {
         const response = await api.delete(`/users/${id}`);

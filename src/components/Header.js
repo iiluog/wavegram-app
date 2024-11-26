@@ -2,7 +2,7 @@ import React from 'react';
 import { customStyles, utilities } from '../styles/appTheme';
 import useUserStore from '../stores/userStore';
 import { useAuth } from '../contexts/AuthContext';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import ProfileImage from './ui/ProfileImage';
 import { UserPen, UserX } from 'lucide-react';
 
@@ -11,6 +11,8 @@ const Header = ({ onOpenModal, isOwnPage }) => {
     const { logout: authLogout } = useAuth();
     const { logout: storeLogout } = useUserStore();
     const navigate = useNavigate();
+    const location = useLocation();
+    const isHomePage = location.pathname === '/';
 
     const getFormattedTime = () => {
         const now = new Date();
@@ -47,18 +49,18 @@ const Header = ({ onOpenModal, isOwnPage }) => {
                         <>
                             <button
                                 onClick={handleEditProfile}
-                                className="text-textPrimary hover:opacity-80 font-medium m-3"
+                                className="text-textPrimary hover:opacity-80 font-medium mr-3 mt-1"
                             >
                                 <UserPen />
                             </button>
                             <button
                                 onClick={handleLogout}
-                                className="text-textPrimary hover:opacity-80 font-medium"
+                                className="text-textPrimary hover:opacity-80 font-medium mt-1"
                             >
                                 <UserX />
                             </button>
                         </>
-                    ) : (
+                    ) : isHomePage && (
                         <>
                             <ProfileImage
                                 image={currentUser?.profile_image}

@@ -38,7 +38,7 @@ const Profile = () => {
     return (
         <div className={utilities.container.maxWidth}>
             <Header isOwnPage={isOwnPage} />
-            <div className="flex flex-col h-[calc(100vh-64px)] bg-background">
+            <div className={`${customStyles.pageContainer} flex flex-col`}>
                 <div className="sticky top-0 bg-background z-10">
                     <div className="flex items-center justify-between p-4">
                         <button onClick={handleBack} className="text-primary">
