@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { BASE_URL } from '@/services/apiSWR';
 import {
   Carousel,
@@ -7,6 +7,15 @@ import {
 } from "@/components/ui/carousel";
 
 const PostCarousel = ({ images, onSlideChange, api, setApi }) => {
+
+  useEffect(() => {
+    if (!api) return;
+    api.on('select', () => {
+        const newSlide = api.selectedScrollSnap();
+        onSlideChange(newSlide);
+    });
+}, [api, onSlideChange]);
+
   return (
     <Carousel className="w-xl" setApi={setApi}>
       <CarouselContent>

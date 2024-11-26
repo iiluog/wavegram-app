@@ -6,7 +6,7 @@ import { Drawer, DrawerTrigger, DrawerPortal, DrawerOverlay } from "@/components
 import CommentsDrawer from '../comments/CommentsDrawer';
 import IconSpaceship from '@/assets/IconSpaceship.svg';
 import IconComment from '@/assets/IconComment.svg';
-import IconThunder from '@/assets/IconThunder.svg';
+import { ReactComponent as IconThunder } from '@/assets/IconThunder.svg';
 import { commentsApi, likesApi } from '@/services/apiSWR';
 
 const PostActions = ({ post }) => {
@@ -77,11 +77,14 @@ const PostActions = ({ post }) => {
       <div className={utilities.flexLayout.between}>
         <div className={customStyles.post.actions.buttons}>
           <button 
-            className={`${customStyles.post.actions.button} ${isLiked ? 'text-red-500' : ''}`}
+            className={`${customStyles.post.actions.button}`}
             onClick={handleLikeClick}
             disabled={isProcessingLike}
           >
-            <img src={IconThunder} alt="like" className="w-8 h-8" fill={isLiked ? "currentColor" : "none"} />
+            <IconThunder 
+              className={`w-8 h-8`}
+              fill={isLiked ? "red" : "var(--primary)"}
+            />
           </button>
           
           <Drawer>

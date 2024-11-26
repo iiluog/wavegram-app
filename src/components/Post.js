@@ -15,6 +15,8 @@ const Post = ({ post }) => {
   const [api, setApi] = useState(null);
   const [tags, setTags] = useState(post.tags ?? []);
   const currentUser = useUserStore((state) => state.currentUser);
+
+  console.log(currentSlide);
   
   const isOwnPost = post.user_id === currentUser?.id;
 
@@ -62,6 +64,7 @@ const Post = ({ post }) => {
         setApi={setApi}
       />
       <PostActions post={post} />
+      <PostDescription description={post.description} />
       <PostTags 
         tags={tags}
         isOwnPost={isOwnPost}
@@ -70,7 +73,6 @@ const Post = ({ post }) => {
         onRemoveTag={handleRemoveTag}
         postId={post.id}
       />
-      <PostDescription description={post.description} />
     </article>
   );
 };
