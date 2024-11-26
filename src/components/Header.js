@@ -4,7 +4,7 @@ import useUserStore from '../stores/userStore';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import ProfileImage from './ui/ProfileImage';
-import { LogOutIcon } from 'lucide-react';
+import { UserPen, UserX } from 'lucide-react';
 
 const Header = ({ onOpenModal, isOwnPage }) => {
     const { currentUser } = useUserStore();
@@ -28,6 +28,10 @@ const Header = ({ onOpenModal, isOwnPage }) => {
         navigate('/login'); // Usa navigate invece di window.location
     };
 
+    const handleEditProfile = () => {
+        navigate('/edit-profile');
+    };
+
     return (
         <div className={customStyles.header.base}>
             <div className={utilities.flexLayout.between}>
@@ -40,12 +44,20 @@ const Header = ({ onOpenModal, isOwnPage }) => {
                 </span>
                 <div className={utilities.flexLayout.center}>
                     {isOwnPage ? (
-                        <button
-                            onClick={handleLogout}
-                            className="text-textPrimary hover:opacity-80 font-medium"
-                        >
-                            <LogOutIcon />
-                        </button>
+                        <>
+                            <button
+                                onClick={handleEditProfile}
+                                className="text-textPrimary hover:opacity-80 font-medium m-3"
+                            >
+                                <UserPen />
+                            </button>
+                            <button
+                                onClick={handleLogout}
+                                className="text-textPrimary hover:opacity-80 font-medium"
+                            >
+                                <UserX />
+                            </button>
+                        </>
                     ) : (
                         <>
                             <ProfileImage

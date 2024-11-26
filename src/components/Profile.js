@@ -49,7 +49,7 @@ const Profile = () => {
                     </div>
 
                     <div className="flex flex-col px-6 pb-6">
-                        <div className="flex justify-center">
+                        <div className="flex justify-center m-2">
                             <img
                                 src={getProfileImage(user.profile_image)}
                                 alt={user.username}
@@ -57,9 +57,17 @@ const Profile = () => {
                             />
                         </div>
 
+                        {(user.first_name || user.last_name) && (
+                            <div className="flex justify-center">
+                                <h2 className="text-lg font-bold text-primary">
+                                    {[user.first_name, user.last_name].filter(Boolean).join(' ')}
+                                </h2>
+                            </div>
+                        )}
+
                         <div className="flex justify-center">
                             {user.bio && (
-                                <p className="text-sm text-primary mt-2">{user.bio}</p>
+                                <p className="text-sm text-primary">{user.bio}</p>
                             )}
                         </div>
                     </div>
