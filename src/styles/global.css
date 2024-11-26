@@ -3,6 +3,20 @@
 @tailwind utilities;
 
 @layer base {
+  @font-face {
+    font-family: 'Helvetica Now Display';
+    src: url('../assets/Helvetica Now Display Medium.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: 'Helvetica Now Display';
+    src: url('../assets/Helvetica Now Display Bold.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+  }
+
   :root {
     --background: #E6E6E6;
     --foreground: #E6E6E6;
@@ -54,7 +68,7 @@
     @apply border-border;
   }
   body {
-    @apply font-sans antialiased bg-background text-foreground;
+    @apply font-helvetica antialiased bg-background text-foreground;
   }
 
   .wg-txt-primary {

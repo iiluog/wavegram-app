@@ -3,7 +3,7 @@ import { useAuth } from '../contexts/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
 import { authApi } from '../services/apiSWR';
 import { utilities, customStyles } from '../styles/appTheme';
-import logoHome from '../assets/logo-home.png';
+import logoHome from '../assets/Logo.svg';
 
 const Login = () => {
   const [username, setUsername] = useState('');

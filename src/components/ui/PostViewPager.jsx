@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import logoHome from '@/assets/logo-home.png';
+import logoHome from '@/assets/Logo.svg';
 import Post from '../Post';
 
 const Page = ({ post, index }) => (

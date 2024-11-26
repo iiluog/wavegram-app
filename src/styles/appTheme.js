@@ -39,7 +39,7 @@ export const customStyles = {
     actions: {
       wrapper: "px-4 pt-3",
       buttons: `flex gap-2`,
-      button: "w-6 h-6",
+      button: "w-8 h-8",
       info: `flex flex-col items-end justify-center wg-txt-info`
     },
     tags: {

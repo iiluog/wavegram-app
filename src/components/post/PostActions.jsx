@@ -4,6 +4,9 @@ import { customStyles, utilities } from '@/styles/appTheme';
 import { formatDate } from '@/utils/dateUtils';
 import { Drawer, DrawerTrigger, DrawerPortal, DrawerOverlay } from "@/components/ui/drawer";
 import CommentsDrawer from '../comments/CommentsDrawer';
+import IconSpaceship from '@/assets/IconSpaceship.svg';
+import IconComment from '@/assets/IconComment.svg';
+import IconThunder from '@/assets/IconThunder.svg';
 import { commentsApi, likesApi } from '@/services/apiSWR';
 
 const PostActions = ({ post }) => {
@@ -78,7 +81,7 @@ const PostActions = ({ post }) => {
             onClick={handleLikeClick}
             disabled={isProcessingLike}
           >
-            <Heart size={24} fill={isLiked ? "currentColor" : "none"} />
+            <img src={IconThunder} alt="like" className="w-8 h-8" fill={isLiked ? "currentColor" : "none"} />
           </button>
           
           <Drawer>
@@ -88,7 +91,7 @@ const PostActions = ({ post }) => {
                 role="button"
                 onClick={handleCommentsClick}
               >
-                <MessageCircle size={24} />
+                <img src={IconComment} alt="comments" className="w-8 h-8 " />
               </span>
             </DrawerTrigger>
             <DrawerPortal>
@@ -105,11 +108,11 @@ const PostActions = ({ post }) => {
           </Drawer>
 
           <button className={customStyles.post.actions.button}>
-            <Send size={24} />
+            <img src={IconSpaceship} alt="share" className="w-8 h-8 " />
           </button>
         </div>
         <div className={customStyles.post.actions.info}>
-          <span className="wg-txt-info">BigRock</span>
+          <span className="wg-txt-info">{post.location}</span>
           <span className="wg-txt-info">{formatDate(post.created_at)}</span>
         </div>
       </div>

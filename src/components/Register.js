@@ -4,7 +4,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { authApi } from '../services/apiSWR';
 import debounce from 'lodash/debounce';
 import { customStyles, utilities } from '../styles/appTheme';
-import logoHome from '../assets/logo-home.png';
+import logoHome from '../assets/Logo.svg';
 
 // Crea le funzioni debounced fuori dai callback e dai componenti
 const debouncedEmailCheck = debounce(async (emailToCheck, setIsEmailAvailable, setErrors) => {
