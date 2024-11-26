@@ -75,7 +75,7 @@ const TagInput = ({ value, onChange, onSubmit, postId }) => {
         <input 
           ref={inputRef}
           type="text" 
-          placeholder="Aggiungi un username..." 
+          placeholder="username..." 
           className="flex-1 bg-transparent text-primary wg-txt-body focus:outline-none pt-2 leading-none"
           value={value}
           onChange={handleInputChange}

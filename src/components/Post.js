@@ -33,6 +33,20 @@ const Post = ({ post }) => {
     }
   };
 
+  const handleRemoveTag = async (taggedUserId) => {
+    try {
+      const response = await tagsApi.removeTag(post.id, taggedUserId);
+      if (response.tags) {
+        setTags(response.tags);
+      } else {
+        // remove tag from state
+        setTags(tags.filter((tag) => tag.tagged_user_id !== taggedUserId));
+      }
+    } catch (error) {
+      console.error('Failed to remove tag:', error);
+    }
+  };
+
   return (
     <article className={customStyles.post.container}>
       <PostHeader
@@ -53,6 +67,7 @@ const Post = ({ post }) => {
         isOwnPost={isOwnPost}
         onProfileClick={(username) => handleProfileClick(username)}
         onAddTag={handleAddTag}
+        onRemoveTag={handleRemoveTag}
         postId={post.id}
       />
       <PostDescription description={post.description} />
