@@ -6,7 +6,7 @@ import useSWRInfinite from 'swr/infinite';
 const isProduction = true;
 let link = '';
 if (isProduction)  
-    link = 'https://bigwave.bigrock.it/wavegram'; 
+    link = 'https://bigwave.bigrock.it'; 
 else
     link = 'http://localhost/wavegram';
 
