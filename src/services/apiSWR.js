@@ -2,7 +2,15 @@ import useSWR, { mutate } from 'swr';
 import axios from 'axios';
 import useSWRInfinite from 'swr/infinite';
 
-export const BASE_URL = 'http://localhost/wavegram';
+
+const isProduction = true;
+let link = '';
+if (isProduction)  
+    link = 'https://bigwave.bigrock.it/wavegram'; 
+else
+    link = 'http://localhost/wavegram';
+
+export const BASE_URL = link;
 const API_BASE_URL = `${BASE_URL}/api`;
 
 const api = axios.create({
