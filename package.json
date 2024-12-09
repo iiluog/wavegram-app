@@ -36,7 +36,6 @@
     "zustand": "^5.0.1"
   },
   "scripts": {
-    "install": "npm install --legacy-peer-deps",
     "start": "craco start",
     "build": "craco build",
     "test": "craco test"
