@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { postsApi } from '../services/apiSWR';
 import { customStyles, utilities } from '../styles/appTheme';
 import PostViewPager from './ui/PostViewPager';
@@ -8,34 +8,8 @@ const WavegramApp = ({ onOpenModal }) => {
   const {
     posts,
     isLoading,
-    isLoadingMore,
-    loadMore,
-    isReachingEnd,
     error: isError
   } = postsApi.useGetAll();
-
-  const observerTarget = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && !isLoadingMore && !isReachingEnd) {
-          loadMore();
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (observerTarget.current) {
-      observer.observe(observerTarget.current);
-    }
-
-    return () => {
-      if (observerTarget.current) {
-        observer.unobserve(observerTarget.current);
-      }
-    };
-  }, [isLoadingMore, isReachingEnd, loadMore]);
 
   if (isLoading) {
     return <div className={customStyles.errorContainer}>Loading...</div>;
@@ -50,15 +24,6 @@ const WavegramApp = ({ onOpenModal }) => {
       <Header onOpenModal={onOpenModal} />
       <div className={customStyles.pageContainer}>
         <PostViewPager posts={posts} />
-
-        {/* Observer target and loading spinner */}
-        <div ref={observerTarget} style={{ height: '20px' }}>
-          {isLoadingMore && (
-            <div className={customStyles.loadingContainer}>
-              <div className={customStyles.loadingSpinner}></div>
-            </div>
-          )}
-        </div>
       </div>
     </div>
   );

@@ -15,8 +15,6 @@ const Post = ({ post }) => {
   const [api, setApi] = useState(null);
   const [tags, setTags] = useState(post.tags ?? []);
   const currentUser = useUserStore((state) => state.currentUser);
-
-  console.log(currentSlide);
   
   const isOwnPost = post.user_id === currentUser?.id;
 
