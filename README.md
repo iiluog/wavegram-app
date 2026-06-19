@@ -80,7 +80,3 @@ src/
 ├── utils/           # Image / date helpers
 └── styles/          # Global styles & theme
 ```
-
-## License
-
-[MIT](./LICENSE) © Giulio Moschini
