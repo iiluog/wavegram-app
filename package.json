@@ -2,6 +2,17 @@
   "name": "wavegram-app",
   "version": "0.1.0",
   "private": true,
+  "description": "Mobile-first social media PWA (Instagram-style) built with React, TypeScript, SWR and Tailwind CSS.",
+  "author": "Giulio Moschini",
+  "license": "MIT",
+  "keywords": [
+    "react",
+    "typescript",
+    "pwa",
+    "social-media",
+    "tailwindcss",
+    "swr"
+  ],
   "dependencies": {
     "@emotion/react": "^11.13.3",
     "@emotion/styled": "^11.13.0",

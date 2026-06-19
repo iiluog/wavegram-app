@@ -3,14 +3,9 @@ import axios from 'axios';
 import useSWRInfinite from 'swr/infinite';
 
 
-const isProduction = true;
-let link = '';
-if (isProduction)  
-    link = 'https://bigwave.bigrock.it'; 
-else
-    link = 'http://localhost/wavegram';
-
-export const BASE_URL = link;
+// Base URL of the backend API. Configure it via the REACT_APP_API_URL
+// environment variable (see .env.example). Falls back to a local backend.
+export const BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost/wavegram';
 const API_BASE_URL = `${BASE_URL}/api`;
 
 const api = axios.create({

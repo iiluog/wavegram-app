@@ -1,70 +1,86 @@
-# Getting Started with Create React App
+# Wavegram
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A mobile-first social media web app — think a lightweight Instagram clone — built as a Progressive Web App with React and TypeScript. Users can sign up, share image posts, like and comment, tag other users, and browse an infinite feed.
 
-## Available Scripts
+> **Note:** This is the **frontend** of the application. It talks to a separate REST API backend (configurable via environment variable).
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- 🔐 **Authentication** — register / login with JWT access + refresh tokens, with automatic token refresh on `401`
+- 📰 **Infinite feed** — paginated post feed with infinite scroll (SWR + `useSWRInfinite`)
+- 🖼️ **Image posts** — multi-image posts with a swipeable carousel
+- ❤️ **Likes & comments** — like posts and comment via a bottom drawer
+- 🏷️ **User tagging** — tag other users in posts, with live user search
+- 👤 **Profiles** — public user profiles, profile editing, and avatar upload
+- 📱 **PWA** — installable, offline-capable via a Workbox service worker
+- 🎨 **Modern UI** — Tailwind CSS, Radix UI primitives, MUI, and Lucide icons
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Tech Stack
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+| Area | Technology |
+|------|------------|
+| Framework | React 18 + TypeScript (Create React App via CRACO) |
+| Routing | React Router v6 |
+| Data fetching | SWR (with `useSWRInfinite`) + Axios |
+| State | Zustand + React Context |
+| Styling | Tailwind CSS, Radix UI, MUI, `class-variance-authority` |
+| PWA | Workbox |
 
-### `npm test`
+## Getting Started
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Prerequisites
 
-### `npm run build`
+- Node.js 18+ and npm
+- A running instance of the Wavegram backend API
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Installation
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```bash
+# Clone the repository
+git clone https://github.com/<your-username>/wavegram-app.git
+cd wavegram-app
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+# Install dependencies
+npm install
 
-### `npm run eject`
+# Configure the backend URL
+cp .env.example .env
+# then edit .env and set REACT_APP_API_URL
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Available Scripts
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+npm start    # Run the dev server at http://localhost:3000
+npm run build  # Build an optimized production bundle into /build
+npm test     # Run the test runner
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Configuration
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+The app reads the backend base URL from an environment variable:
 
-## Learn More
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `REACT_APP_API_URL` | Base URL of the backend API (no trailing slash). The app calls `<REACT_APP_API_URL>/api/...`. | `https://bigwave.bigrock.it` |
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+See [`.env.example`](./.env.example) for a template.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## Project Structure
 
-### Code Splitting
+```
+src/
+├── components/      # Feature components (feed, post, profile, auth)
+│   ├── comments/    # Comments drawer, list, input
+│   ├── post/        # Post header, carousel, actions, tags
+│   └── ui/          # Reusable UI primitives (button, card, drawer…)
+├── contexts/        # AuthContext (auth state + token handling)
+├── services/        # apiSWR.js — API layer (Axios + SWR hooks)
+├── stores/          # Zustand stores (current user)
+├── utils/           # Image / date helpers
+└── styles/          # Global styles & theme
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## License
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+[MIT](./LICENSE) © Giulio Moschini
